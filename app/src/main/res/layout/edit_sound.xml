@@ -56,38 +56,39 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
-            android:id="@+id/divider4"
+            android:id="@+id/divider6"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
             android:background="?android:attr/listDivider" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="CHOOSE NEW SOUND FILE" />
-
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textView16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="34dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="32dp"
             android:text="File Name:"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView17"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="4dp"
             android:layout_marginRight="32dp"
-            android:text="something.mp4" />
+            android:text="something.mp3" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="@color/purple_500"
+            android:gravity="center"
+            android:text="CHOOSE A NEW SOUND FILE" />
 
     </LinearLayout>
 
@@ -111,6 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="#A54E4E"
                 android:text="cancel" />
 
             <Button

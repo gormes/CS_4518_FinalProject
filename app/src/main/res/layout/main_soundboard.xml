@@ -27,7 +27,7 @@
             app:srcCompat="@drawable/blue" />
 
         <TextView
-            android:id="@+id/soundName"
+            android:id="@+id/genericSoundName2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

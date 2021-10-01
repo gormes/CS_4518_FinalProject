@@ -59,20 +59,12 @@
             android:layout_marginTop="16dp"
             android:background="?android:attr/listDivider" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="CHOOSE A SOUND FILE" />
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="34dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="32dp"
             android:text="File Name:"
             android:textSize="16sp" />
@@ -84,7 +76,16 @@
             android:layout_marginLeft="40dp"
             android:layout_marginTop="4dp"
             android:layout_marginRight="32dp"
-            android:text="something.mp4" />
+            android:text="something.mp3" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="#656565"
+            android:gravity="center"
+            android:text="CHOOSE A SOUND FILE" />
 
     </LinearLayout>
 
@@ -108,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="#A54E4E"
                 android:text="cancel" />
 
             <Button
