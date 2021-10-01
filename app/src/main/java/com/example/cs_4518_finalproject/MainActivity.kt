@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.edit_soundboard)
+        setContentView(R.layout.edit_sound)
 //        binding = ActivityMainBinding.inflate(layoutInflater)
 //        setContentView(binding.root)
 //

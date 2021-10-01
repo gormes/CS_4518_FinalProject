@@ -78,14 +78,32 @@
             android:layout_marginRight="32dp"
             android:text="something.mp3" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:backgroundTint="#656565"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:text="CHOOSE A SOUND FILE" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="@color/purple_500"
+                android:text="Record A Clip" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="@color/purple_500"
+                android:gravity="center"
+                android:text="CHOOSE A SOUND FILE" />
+        </LinearLayout>
 
     </LinearLayout>
 
