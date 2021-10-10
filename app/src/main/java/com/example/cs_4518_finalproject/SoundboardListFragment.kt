@@ -1,32 +1,38 @@
 package com.example.cs_4518_finalproject
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 
 private const val TAG = "SoundboardListFragment"
 
-class SoundboardListFragment : Fragment() {
+class SoundboardListFragment : Fragment(){
 
+    interface Callbacks {
+        fun onAddSelected()
+    }
+    private var callbacks: Callbacks? = null
+
+
+    private lateinit var addSoundButton: Button
     private lateinit var soundboardRecyclerView: RecyclerView
     private var adapter: SoundAdapter? = SoundAdapter(emptyList())
 
     private val soundboardListViewModel: SoundboardListViewModel by lazy {
         ViewModelProvider(this).get(SoundboardListViewModel::class.java)
     }
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        Log.d(TAG, "Total crimes: ${soundboardListViewModel.sounds.size}")
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,9 +43,26 @@ class SoundboardListFragment : Fragment() {
         soundboardRecyclerView =
             view.findViewById(R.id.recycler_view) as RecyclerView
         soundboardRecyclerView.layoutManager = LinearLayoutManager(context)
+        addSoundButton = view.findViewById(R.id.newButton)
+        addSoundButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                callbacks?.onAddSelected()
+            }
+
+        })
         soundboardRecyclerView.adapter = adapter
 
         return view
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks?
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callbacks = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +75,10 @@ class SoundboardListFragment : Fragment() {
                     updateUI(sounds)
                 }
             })
+
+
     }
+
 
     private inner class SoundHolder(view: View)
         : RecyclerView.ViewHolder(view) {
@@ -93,4 +119,8 @@ class SoundboardListFragment : Fragment() {
             return SoundboardListFragment()
         }
     }
+
+
+
+
 }
