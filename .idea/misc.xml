@@ -6,9 +6,13 @@
         <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/activity_main.xml" value="0.29393115942028986" />
         <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/edit_sound.xml" value="0.25" />
         <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/edit_soundboard.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/fragment_container.xml" value="0.22327898550724637" />
+        <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/fragment_first.xml" value="0.22327898550724637" />
+        <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/fragment_second.xml" value="0.22327898550724637" />
         <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/main_soundboard.xml" value="0.22" />
         <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/new_sound.xml" value="0.25" />
         <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/remote_soundboard.xml" value="0.259375" />
+        <entry key="..\:/Users/gwyne/AndroidStudioProjects/CS_4518_FinalProject2/app/src/main/res/layout/sound_item.xml" value="0.25" />
       </map>
     </option>
   </component>
