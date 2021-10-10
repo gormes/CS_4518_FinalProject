@@ -1,14 +1,18 @@
 package com.example.cs_4518_finalproject
 
-import Sound
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import java.util.*
 
 @Dao
 interface SoundDao {
     @Query("SELECT * FROM sound")
-    fun getSounds(): List<Sound>
+    fun getSounds(): LiveData<List<Sound>>
     @Query("SELECT * FROM sound WHERE id=(:id)")
-    fun getSound(id: UUID): Sound?
+    fun getSound(id: UUID): LiveData<Sound>
+
+    @Insert
+    fun insertSound(sound: Sound)
 }
