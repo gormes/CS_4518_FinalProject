@@ -10,7 +10,6 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import java.util.*
 
-private const val ARG_SOUND_ID = "sound_id"
 
 class AddSoundFragment: Fragment() {
 
@@ -58,17 +57,6 @@ class AddSoundFragment: Fragment() {
             }
         }
         soundName.addTextChangedListener(titleWatcher)
-    }
-
-    companion object {
-        fun newInstance(soundId: UUID): AddSoundFragment {
-            val args = Bundle().apply {
-                putSerializable(ARG_SOUND_ID, soundId)
-            }
-            return AddSoundFragment().apply {
-                arguments = args
-            }
-        }
     }
 
 }
