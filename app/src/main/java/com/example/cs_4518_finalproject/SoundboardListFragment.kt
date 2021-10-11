@@ -90,10 +90,14 @@ class SoundboardListFragment : Fragment(){
 
 
     private inner class SoundHolder(view: View)
-        : RecyclerView.ViewHolder(view) {
+        : RecyclerView.ViewHolder(view), View.OnClickListener {
         private lateinit var sound: Sound
         private val nameTextView: TextView = itemView.findViewById(R.id.soundName)
         private val colorTextView: TextView = itemView.findViewById(R.id.color)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun bind(sound: Sound) {
             this.sound = sound
@@ -101,6 +105,10 @@ class SoundboardListFragment : Fragment(){
             var col = 0
             this.sound.colorval?.let {col = it}
             colorTextView.setBackgroundColor(col)
+        }
+
+        override fun onClick(v: View?) {
+            Log.i(TAG,"Eventually will play sound")
         }
 
     }

@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import java.util.*
 import java.util.concurrent.Executors
 
-private const val DATABASE_NAME = "sound-database"
+private const val DATABASE_NAME = "sound-database2"
 
 class SoundRepository private constructor(context:Context) {
 

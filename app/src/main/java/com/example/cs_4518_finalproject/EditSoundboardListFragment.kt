@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,9 @@ class EditSoundboardListFragment : Fragment() {
     private val soundboardListViewModel: SoundboardListViewModel by lazy {
         ViewModelProvider(this).get(SoundboardListViewModel::class.java)
     }
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,7 +75,7 @@ class EditSoundboardListFragment : Fragment() {
             viewLifecycleOwner,
             Observer { sounds ->
                 sounds?.let {
-                    Log.i(TAG2, "Got crimes ${sounds.size}")
+                    Log.i(TAG2, "Got crimes 2${sounds.size}")
                     updateUI(sounds)
                 }
             })
@@ -85,6 +89,17 @@ class EditSoundboardListFragment : Fragment() {
         private lateinit var sound: Sound
         private val nameTextView: TextView = itemView.findViewById(R.id.soundName)
         private val colorTextView: TextView = itemView.findViewById(R.id.color)
+        private val upArrow: AppCompatImageButton = itemView.findViewById(R.id.upArrow)
+        private val downArrow: AppCompatImageButton = itemView.findViewById(R.id.downArrow)
+        init {
+            itemView.setOnClickListener(this)
+            upArrow.setOnClickListener(){
+                Log.i(TAG2, "Up Clicked")
+            }
+            downArrow.setOnClickListener(){
+                Log.i(TAG2, "DownClicked")
+            }
+        }
 
         fun bind(sound: Sound) {
             this.sound = sound
@@ -95,8 +110,11 @@ class EditSoundboardListFragment : Fragment() {
         }
 
         override fun onClick(v: View?) {
-            callbacks?.onSoundSelected(sound.id)
+            Log.i(TAG2, "CLCIKEDSS")
+            //callbacks?.onSoundSelected(sound.id)
         }
+
+
 
     }
 
@@ -124,30 +142,4 @@ class EditSoundboardListFragment : Fragment() {
         }
     }
 
-
-//    override fun onStart() {
-//        super.onStart()
-//        val titleWatcher = object : TextWatcher {
-//            override fun beforeTextChanged(
-//                sequence: CharSequence?,
-//                start: Int,
-//                count: Int,
-//                after: Int
-//            ) {
-//// This space intentionally left blank
-//            }
-//            override fun onTextChanged(
-//                sequence: CharSequence?,
-//                start: Int,
-//                before: Int,
-//                count: Int
-//            ) {
-//                crime.title = sequence.toString()
-//            }
-//            override fun afterTextChanged(sequence: Editable?) {
-//// This one too
-//            }
-//        }
-//        titleField.addTextChangedListener(titleWatcher)
-//    }
 }

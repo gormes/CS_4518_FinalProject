@@ -58,7 +58,7 @@ EditSoundboardListFragment.Callbacks {
     }
 
     override fun onSoundSelected(soundId: UUID) {
-            Log.d(TAG, "MainActivity.onCrimeSelected: $soundId")
+            Log.i(TAG, "MainActivity.onCrimeSelected: $soundId")
     }
 
 
@@ -75,7 +75,6 @@ EditSoundboardListFragment.Callbacks {
                 .add(R.id.fragment_container, fragment)
                 .commit()
         }
-
 
     }
 
