@@ -42,7 +42,7 @@ class AddSoundFragment: Fragment() {
         sound=Sound()
         val rnd = Random()
         sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-        sound.filename = ""
+        sound.filename = "No File Selected"
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,18 +52,6 @@ class AddSoundFragment: Fragment() {
     override fun onDetach() {
         super.onDetach()
         callbacks = null
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        soundDetailViewModel.soundLiveData.observe(
-//            viewLifecycleOwner,
-//            Observer { sound ->
-//                sound?.let {
-//                    this.sound = sound
-//                    updateUI()
-//                }
-//            })
     }
 
     private fun updateUI() {
@@ -77,18 +65,11 @@ class AddSoundFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.new_sound, container, false)
-        soundName = view.findViewById<EditText>(R.id.addSoundName)
+        soundName = view.findViewById(R.id.addSoundName)
         soundFileName = view.findViewById(R.id.addClipName)
         addDoneButton = view.findViewById(R.id.newDoneButton)
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                sound.filename = soundFileName.text.toString()
-                Log.i(TAG, "${sound.filename}")
-                if(sound.filename.isNullOrEmpty()
-                ){
-                    callbacks?.onAddCancelSelected()
-                }
-
                 sound.name = soundName.text.toString()
                 if(sound.name == ""){
                     sound.name = "Sound Effect: ${sound.id}"
