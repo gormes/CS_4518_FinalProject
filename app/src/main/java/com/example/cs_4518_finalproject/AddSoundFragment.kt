@@ -1,5 +1,6 @@
 package com.example.cs_4518_finalproject
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,10 +25,12 @@ class AddSoundFragment: Fragment() {
 
     interface Callbacks {
         fun onAddDoneSelected()
+        fun onAddCancelSelected()
     }
+
     private var callbacks: Callbacks? = null
     private lateinit var addDoneButton: Button
-
+    private lateinit var addCancelButton: Button
 
     private val soundDetailViewModel: AddSoundDetailViewModel by lazy {
         ViewModelProvider(this).get(AddSoundDetailViewModel::class.java)
@@ -36,6 +39,9 @@ class AddSoundFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sound=Sound()
+        val rnd = Random()
+        sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,44 +71,52 @@ class AddSoundFragment: Fragment() {
         addDoneButton = view.findViewById(R.id.newDoneButton)
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
+                sound.name = soundName.text.toString()
                 soundDetailViewModel.addSound(sound)
                 callbacks?.onAddDoneSelected()
+            }
+
+        })
+        addCancelButton = view.findViewById(R.id.newCancelButton)
+        addCancelButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                callbacks?.onAddCancelSelected()
             }
 
         })
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
-        val titleWatcher = object : TextWatcher {
-            override fun beforeTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-
-            }
-            override fun onTextChanged(
-                sequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                sound.name = sequence.toString()
-            }
-            override fun afterTextChanged(sequence: Editable?) {
-// This one too
-            }
-        }
-        soundName.addTextChangedListener(titleWatcher)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        //soundDetailViewModel.addSound(sound)
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        val titleWatcher = object : TextWatcher {
+//            override fun beforeTextChanged(
+//                sequence: CharSequence?,
+//                start: Int,
+//                count: Int,
+//                after: Int
+//            ) {
+//
+//            }
+//            override fun onTextChanged(
+//                sequence: CharSequence?,
+//                start: Int,
+//                before: Int,
+//                count: Int
+//            ) {
+//                sound.name = sequence.toString()
+//            }
+//            override fun afterTextChanged(sequence: Editable?) {
+//// This one too
+//            }
+//        }
+//        soundName.addTextChangedListener(titleWatcher)
+//    }
+////
+//    override fun onStop() {
+//        super.onStop()
+//        soundDetailViewModel.addSound(sound)
+//    }
 
 
 }

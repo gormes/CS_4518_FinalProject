@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TAG = "MAIN ACTIVITY"
-class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks, AddSoundFragment.Callbacks {
+class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks, AddSoundFragment.Callbacks,
+EditSoundboardListFragment.Callbacks {
 
     override fun onAddSelected() {
         val fragment = AddSoundFragment()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
             .commit()
     }
 
@@ -27,13 +27,32 @@ class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks, AddS
             .commit()
     }
 
+    override fun onAddCancelSelected() {
+        val fragment = SoundboardListFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+    }
+
     override fun onEditSelected() {
-//        val fragment = AddSoundFragment()
-//        supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.fragment_container, fragment)
-//            .addToBackStack(null)
-//            .commit()
+        val fragment = EditSoundboardListFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+    }
+
+    override fun onBackSelected(){
+        val fragment = SoundboardListFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+    }
+
+    override fun onSoundSelected() {
+        TODO("Not yet implemented")
     }
 
 

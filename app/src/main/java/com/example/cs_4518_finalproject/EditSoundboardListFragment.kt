@@ -15,19 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
+private const val TAG2 = "EditSoundboardListFrag"
 
-private const val TAG = "SoundboardListFragment"
-
-class SoundboardListFragment : Fragment(){
+class EditSoundboardListFragment : Fragment() {
 
     interface Callbacks {
-        fun onAddSelected()
-        fun onEditSelected()
+        fun onBackSelected()
+        fun onSoundSelected()
     }
+
     private var callbacks: Callbacks? = null
 
-    private lateinit var addSoundButton: Button
-    private lateinit var editSoundButton: Button
+    private lateinit var doneEditButton: Button
 
     private lateinit var soundboardRecyclerView: RecyclerView
     private var adapter: SoundAdapter? = SoundAdapter(emptyList())
@@ -35,27 +34,19 @@ class SoundboardListFragment : Fragment(){
     private val soundboardListViewModel: SoundboardListViewModel by lazy {
         ViewModelProvider(this).get(SoundboardListViewModel::class.java)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.main_soundboard, container, false)
+        val view = inflater.inflate(R.layout.edit_soundboard, container, false)
         soundboardRecyclerView =
-            view.findViewById(R.id.recycler_view) as RecyclerView
+            view.findViewById(R.id.edit_recycler_view) as RecyclerView
         soundboardRecyclerView.layoutManager = LinearLayoutManager(context)
-        addSoundButton = view.findViewById(R.id.newButton)
-        addSoundButton.setOnClickListener(object : View.OnClickListener {
+        doneEditButton = view.findViewById(R.id.doneButton)
+        doneEditButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onAddSelected()
-            }
-
-        })
-        editSoundButton = view.findViewById(R.id.editButton)
-        editSoundButton.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                callbacks?.onEditSelected()
+                callbacks?.onBackSelected()
             }
 
         })
@@ -80,7 +71,7 @@ class SoundboardListFragment : Fragment(){
             viewLifecycleOwner,
             Observer { sounds ->
                 sounds?.let {
-                    Log.i(TAG, "Got crimes ${sounds.size}")
+                    Log.i(TAG2, "Got crimes ${sounds.size}")
                     updateUI(sounds)
                 }
             })
@@ -109,7 +100,7 @@ class SoundboardListFragment : Fragment(){
         : RecyclerView.Adapter<SoundHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
                 : SoundHolder {
-            val view = layoutInflater.inflate(R.layout.sound_item, parent, false)
+            val view = layoutInflater.inflate(R.layout.edit_sound_item, parent, false)
             return SoundHolder(view)
         }
         override fun getItemCount() = sounds.size
@@ -124,12 +115,9 @@ class SoundboardListFragment : Fragment(){
     }
 
     companion object {
-        fun newInstance(): SoundboardListFragment {
-            return SoundboardListFragment()
+        fun newInstance(): EditSoundboardListFragment {
+            return EditSoundboardListFragment()
         }
     }
-
-
-
 
 }
