@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TAG = "MAIN ACTIVITY"
-class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks {
+class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks, AddSoundFragment.Callbacks {
 
     override fun onAddSelected() {
         val fragment = AddSoundFragment()
@@ -17,6 +17,23 @@ class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks {
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onAddDoneSelected(){
+        val fragment = SoundboardListFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+    }
+
+    override fun onEditSelected() {
+//        val fragment = AddSoundFragment()
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.fragment_container, fragment)
+//            .addToBackStack(null)
+//            .commit()
     }
 
 

@@ -6,10 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import java.util.*
+import java.util.concurrent.Executors
 
 private const val DATABASE_NAME = "sound-database"
 
 class SoundRepository private constructor(context:Context) {
+
+    private val executor = Executors.newSingleThreadExecutor()
 
     private val database : SoundDatabase = Room.databaseBuilder(
         context.applicationContext,
@@ -20,6 +23,16 @@ class SoundRepository private constructor(context:Context) {
     private val soundDao = database.soundDao()
     fun getSounds(): LiveData<List<Sound>> = soundDao.getSounds()
     fun getSound(id: UUID): LiveData<Sound> = soundDao.getSound(id)
+    fun updateSound(sound: Sound) {
+        executor.execute {
+            soundDao.updateSound(sound)
+        }
+    }
+    fun addSound(sound: Sound) {
+        executor.execute {
+            soundDao.addSound(sound)
+        }
+    }
 
     companion object {
         private var INSTANCE: SoundRepository? = null

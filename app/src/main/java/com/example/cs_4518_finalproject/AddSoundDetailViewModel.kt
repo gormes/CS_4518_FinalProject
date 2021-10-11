@@ -13,7 +13,12 @@ class AddSoundDetailViewModel: ViewModel() {
             Transformations.switchMap(soundIdLiveData) { soundId ->
                 soundRepository.getSound(soundId)
             }
-        fun loadCrime(soundId: UUID) {
+
+        fun loadSound(soundId: UUID) {
             soundIdLiveData.value = soundId
+        }
+
+        fun addSound(sound: Sound) {
+            soundRepository.addSound(sound)
         }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import java.util.*
 
 @Dao
@@ -12,7 +13,8 @@ interface SoundDao {
     fun getSounds(): LiveData<List<Sound>>
     @Query("SELECT * FROM sound WHERE id=(:id)")
     fun getSound(id: UUID): LiveData<Sound>
-
+    @Update
+    fun updateSound(sound:Sound)
     @Insert
-    fun insertSound(sound: Sound)
+    fun addSound(sound: Sound)
 }

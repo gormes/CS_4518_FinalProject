@@ -22,11 +22,14 @@ class SoundboardListFragment : Fragment(){
 
     interface Callbacks {
         fun onAddSelected()
+        fun onEditSelected()
     }
     private var callbacks: Callbacks? = null
 
 
     private lateinit var addSoundButton: Button
+    private lateinit var editSoundButton: Button
+
     private lateinit var soundboardRecyclerView: RecyclerView
     private var adapter: SoundAdapter? = SoundAdapter(emptyList())
 
@@ -47,6 +50,13 @@ class SoundboardListFragment : Fragment(){
         addSoundButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 callbacks?.onAddSelected()
+            }
+
+        })
+        editSoundButton = view.findViewById(R.id.editButton)
+        editSoundButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                callbacks?.onEditSelected()
             }
 
         })
