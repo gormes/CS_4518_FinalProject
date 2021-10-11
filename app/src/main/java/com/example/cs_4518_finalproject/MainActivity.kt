@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 private const val TAG = "MAIN ACTIVITY"
 class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks, AddSoundFragment.Callbacks,
@@ -56,9 +57,10 @@ EditSoundboardListFragment.Callbacks {
             .commit()
     }
 
-    override fun onSoundSelected() {
-        TODO("Not yet implemented")
+    override fun onSoundSelected(soundId: UUID) {
+            Log.d(TAG, "MainActivity.onCrimeSelected: $soundId")
     }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

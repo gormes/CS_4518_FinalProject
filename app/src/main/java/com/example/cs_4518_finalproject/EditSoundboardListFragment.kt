@@ -21,7 +21,7 @@ class EditSoundboardListFragment : Fragment() {
 
     interface Callbacks {
         fun onBackSelected()
-        fun onSoundSelected()
+        fun onSoundSelected(soundId: UUID)
     }
 
     private var callbacks: Callbacks? = null
@@ -81,7 +81,7 @@ class EditSoundboardListFragment : Fragment() {
 
 
     private inner class SoundHolder(view: View)
-        : RecyclerView.ViewHolder(view) {
+        : RecyclerView.ViewHolder(view), View.OnClickListener {
         private lateinit var sound: Sound
         private val nameTextView: TextView = itemView.findViewById(R.id.soundName)
         private val colorTextView: TextView = itemView.findViewById(R.id.color)
@@ -92,6 +92,10 @@ class EditSoundboardListFragment : Fragment() {
             var col = 0
             this.sound.colorval?.let {col = it}
             colorTextView.setBackgroundColor(col)
+        }
+
+        override fun onClick(v: View?) {
+            callbacks?.onSoundSelected(sound.id)
         }
 
     }
@@ -120,4 +124,30 @@ class EditSoundboardListFragment : Fragment() {
         }
     }
 
+
+//    override fun onStart() {
+//        super.onStart()
+//        val titleWatcher = object : TextWatcher {
+//            override fun beforeTextChanged(
+//                sequence: CharSequence?,
+//                start: Int,
+//                count: Int,
+//                after: Int
+//            ) {
+//// This space intentionally left blank
+//            }
+//            override fun onTextChanged(
+//                sequence: CharSequence?,
+//                start: Int,
+//                before: Int,
+//                count: Int
+//            ) {
+//                crime.title = sequence.toString()
+//            }
+//            override fun afterTextChanged(sequence: Editable?) {
+//// This one too
+//            }
+//        }
+//        titleField.addTextChangedListener(titleWatcher)
+//    }
 }
