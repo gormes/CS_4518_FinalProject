@@ -110,8 +110,7 @@ class EditSoundboardListFragment : Fragment() {
         }
 
         override fun onClick(v: View?) {
-            Log.i(TAG2, "CLCIKEDSS")
-            //callbacks?.onSoundSelected(sound.id)
+            callbacks?.onSoundSelected(sound.id)
         }
 
 

@@ -21,4 +21,13 @@ class AddSoundDetailViewModel: ViewModel() {
         fun addSound(sound: Sound) {
             soundRepository.addSound(sound)
         }
+
+        fun saveSound(sound: Sound) {
+            soundRepository.updateSound(sound)
+        }
+
+        fun deleteSound(sound: Sound) {
+            soundRepository.deleteSound(sound)
+        }
+
 }

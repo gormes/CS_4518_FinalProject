@@ -23,6 +23,7 @@ class SoundRepository private constructor(context:Context) {
     private val soundDao = database.soundDao()
     fun getSounds(): LiveData<List<Sound>> = soundDao.getSounds()
     fun getSound(id: UUID): LiveData<Sound> = soundDao.getSound(id)
+
     fun updateSound(sound: Sound) {
         executor.execute {
             soundDao.updateSound(sound)
@@ -31,6 +32,11 @@ class SoundRepository private constructor(context:Context) {
     fun addSound(sound: Sound) {
         executor.execute {
             soundDao.addSound(sound)
+        }
+    }
+    fun deleteSound(sound: Sound) {
+        executor.execute {
+            soundDao.deleteSound(sound)
         }
     }
 

@@ -10,7 +10,7 @@ import java.util.*
 
 private const val TAG = "MAIN ACTIVITY"
 class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks, AddSoundFragment.Callbacks,
-EditSoundboardListFragment.Callbacks {
+EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks {
 
     override fun onAddSelected() {
         val fragment = AddSoundFragment()
@@ -59,6 +59,12 @@ EditSoundboardListFragment.Callbacks {
 
     override fun onSoundSelected(soundId: UUID) {
             Log.i(TAG, "MainActivity.onCrimeSelected: $soundId")
+        val fragment = EditSoundFragment.newInstance(soundId)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 
@@ -76,6 +82,33 @@ EditSoundboardListFragment.Callbacks {
                 .commit()
         }
 
+    }
+
+    override fun onEditSaveSelected() {
+        val fragment = EditSoundboardListFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onEditCancelSelected() {
+        val fragment = EditSoundboardListFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onEditDeleteSelected() {
+        val fragment = EditSoundboardListFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 

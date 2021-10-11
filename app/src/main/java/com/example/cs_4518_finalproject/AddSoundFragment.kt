@@ -42,7 +42,7 @@ class AddSoundFragment: Fragment() {
         sound=Sound()
         val rnd = Random()
         sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-
+        sound.filename = ""
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -78,14 +78,22 @@ class AddSoundFragment: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.new_sound, container, false)
         soundName = view.findViewById<EditText>(R.id.addSoundName)
+        soundFileName = view.findViewById(R.id.addClipName)
         addDoneButton = view.findViewById(R.id.newDoneButton)
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
+                sound.filename = soundFileName.text.toString()
+                Log.i(TAG, "${sound.filename}")
+                if(sound.filename.isNullOrEmpty()
+                ){
+                    callbacks?.onAddCancelSelected()
+                }
+
                 sound.name = soundName.text.toString()
                 if(sound.name == ""){
                     sound.name = "Sound Effect: ${sound.id}"
                 }
-                //if(sound.fileAttatched == true){soundDetailViewModel.addSound(sound)}
+                Log.i(TAG, "${sound}")
                 soundDetailViewModel.addSound(sound)
                 callbacks?.onAddDoneSelected()
             }
@@ -101,36 +109,6 @@ class AddSoundFragment: Fragment() {
         return view
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        val titleWatcher = object : TextWatcher {
-//            override fun beforeTextChanged(
-//                sequence: CharSequence?,
-//                start: Int,
-//                count: Int,
-//                after: Int
-//            ) {
-//
-//            }
-//            override fun onTextChanged(
-//                sequence: CharSequence?,
-//                start: Int,
-//                before: Int,
-//                count: Int
-//            ) {
-//                sound.name = sequence.toString()
-//            }
-//            override fun afterTextChanged(sequence: Editable?) {
-//// This one too
-//            }
-//        }
-//        soundName.addTextChangedListener(titleWatcher)
-//    }
-////
-//    override fun onStop() {
-//        super.onStop()
-//        soundDetailViewModel.addSound(sound)
-//    }
 
 
 }

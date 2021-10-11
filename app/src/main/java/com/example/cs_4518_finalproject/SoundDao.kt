@@ -1,10 +1,7 @@
 package com.example.cs_4518_finalproject
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import java.util.*
 
 @Dao
@@ -17,5 +14,7 @@ interface SoundDao {
     fun updateSound(sound:Sound)
     @Insert
     fun addSound(sound: Sound)
+    @Delete
+    fun deleteSound(sound: Sound)
 
 }
