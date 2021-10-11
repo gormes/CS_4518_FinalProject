@@ -7,7 +7,7 @@
     android:backgroundTint="#FFFFFF">
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/formLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -33,7 +33,7 @@
             android:background="?android:attr/listDivider" />
 
         <TextView
-            android:id="@+id/editSoundName"
+            android:id="@+id/editSoundNameLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="34dp"
@@ -42,18 +42,14 @@
             android:text="Sound Name:"
             android:textSize="16sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
+            android:id="@+id/editSoundName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="32dp"
-                android:hint="Current Sound Name" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="32dp"
+            android:hint="Current Sound Name" />
 
         <View
             android:id="@+id/divider6"
@@ -73,7 +69,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/editFileSoundName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
@@ -115,7 +111,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/addRemote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
