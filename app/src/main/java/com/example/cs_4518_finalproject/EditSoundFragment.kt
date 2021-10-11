@@ -1,7 +1,6 @@
 package com.example.cs_4518_finalproject
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -36,8 +35,8 @@ class EditSoundFragment : Fragment() {
     private lateinit var editCancelButton: Button
     private lateinit var editDeleteButton: Button
 
-    private val soundDetailViewModel: AddSoundDetailViewModel by lazy {
-        ViewModelProvider(this).get(AddSoundDetailViewModel::class.java)
+    private val soundDetailViewModel: SoundDetailViewModel by lazy {
+        ViewModelProvider(this).get(SoundDetailViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -3,8 +3,6 @@ package com.example.cs_4518_finalproject
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +13,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import java.util.*
-import androidx.lifecycle.Observer
 
 private const val TAG = "ADD SOUND FRAGMENT"
 class AddSoundFragment: Fragment() {
@@ -33,8 +30,8 @@ class AddSoundFragment: Fragment() {
     private lateinit var addDoneButton: Button
     private lateinit var addCancelButton: Button
 
-    private val soundDetailViewModel: AddSoundDetailViewModel by lazy {
-        ViewModelProvider(this).get(AddSoundDetailViewModel::class.java)
+    private val soundDetailViewModel: SoundDetailViewModel by lazy {
+        ViewModelProvider(this).get(SoundDetailViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

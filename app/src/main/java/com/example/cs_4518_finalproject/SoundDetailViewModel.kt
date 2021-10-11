@@ -6,7 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import java.util.*
 
-class AddSoundDetailViewModel: ViewModel() {
+class SoundDetailViewModel: ViewModel() {
         private val soundRepository = SoundRepository.get()
         private val soundIdLiveData = MutableLiveData<UUID>()
         var soundLiveData: LiveData<Sound> =

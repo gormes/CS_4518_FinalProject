@@ -14,14 +14,3 @@ class SoundboardListViewModel: ViewModel() {
     val soundListLiveData : LiveData<List<Sound>> = soundRepository.getSounds()
     }
 
-//    val sounds = mutableListOf<Sound>()
-//    init {
-//        for (i in 0 until 100) {
-//            val sound = Sound()
-//            sound.name = "Crime #$i"
-//            val rnd = Random()
-//            val color: Int = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-//            sound.colorval = color
-//            sounds += sound
-//        }
-//    }
