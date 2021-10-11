@@ -7,9 +7,10 @@ import java.util.*
 
 @Entity
 data class Sound(@PrimaryKey val id: UUID = UUID.randomUUID(),
-                 @ColumnInfo(name = "name") var name: String = "A",
-                 @ColumnInfo(name = "colorval") var colorval : Int = 1,
-                 @ColumnInfo(name = "filename") var filename: String = "B",
-                 @ColumnInfo(name = "listorder") var listOrder: Int = 0)
+                 @ColumnInfo(name = "name") var name: String = "",
+                 @ColumnInfo(name = "colorval") var colorval : Int = 0,
+                 @ColumnInfo(name = "filename") var filename: String = "",
+                 @ColumnInfo(name = "listorder") var listOrder: Int = 0,
+                 @ColumnInfo(name = "fileattached") var fileAttatched: Boolean = false)
 
 //Filename, UUID. etc

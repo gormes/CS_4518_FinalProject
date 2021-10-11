@@ -1,5 +1,6 @@
 package com.example.cs_4518_finalproject
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -43,6 +44,15 @@ class AddSoundFragment: Fragment() {
         sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
 
     }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks?
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callbacks = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,6 +82,10 @@ class AddSoundFragment: Fragment() {
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 sound.name = soundName.text.toString()
+                if(sound.name == ""){
+                    sound.name = "Sound Effect: ${sound.id}"
+                }
+                //if(sound.fileAttatched == true){soundDetailViewModel.addSound(sound)}
                 soundDetailViewModel.addSound(sound)
                 callbacks?.onAddDoneSelected()
             }
