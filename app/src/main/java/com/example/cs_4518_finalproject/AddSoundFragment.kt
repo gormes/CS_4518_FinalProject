@@ -2,6 +2,8 @@ package com.example.cs_4518_finalproject
 
 import android.content.Context
 import android.graphics.Color
+import android.media.AudioManager
+import android.media.MediaRecorder
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,6 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import java.util.*
 import androidx.lifecycle.Observer
+import java.io.IOException
+import java.lang.System.getProperty
 
 private const val TAG = "ADD SOUND FRAGMENT"
 class AddSoundFragment: Fragment() {
@@ -23,6 +27,9 @@ class AddSoundFragment: Fragment() {
     private lateinit var sound: Sound
     private lateinit var soundName: EditText
     private lateinit var soundFileName: TextView
+
+    private var recorder: MediaRecorder? = null
+    //private var fileName: String = "${context.applicationContext.filesDir}/audiorecordtest.3gp"
 
     interface Callbacks {
         fun onAddDoneSelected()
@@ -32,6 +39,7 @@ class AddSoundFragment: Fragment() {
     private var callbacks: Callbacks? = null
     private lateinit var addDoneButton: Button
     private lateinit var addCancelButton: Button
+    private lateinit var addRecordButton: Button
 
     private val soundDetailViewModel: AddSoundDetailViewModel by lazy {
         ViewModelProvider(this).get(AddSoundDetailViewModel::class.java)
@@ -43,6 +51,7 @@ class AddSoundFragment: Fragment() {
         val rnd = Random()
         sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
         sound.filename = "No File Selected"
+
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -80,6 +89,8 @@ class AddSoundFragment: Fragment() {
             }
 
         })
+
+
         addCancelButton = view.findViewById(R.id.newCancelButton)
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
@@ -87,9 +98,60 @@ class AddSoundFragment: Fragment() {
             }
 
         })
+        var mStartRecording = true
+        addRecordButton = view.findViewById(R.id.addRecord)
+        addRecordButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                    onRecord(mStartRecording)
+                    if(mStartRecording) {
+                        addRecordButton.setText("Stop recording")
+                    } else {
+                        addRecordButton.setText("Start recording")
+                    }
+                    mStartRecording = !mStartRecording
+            }
+
+        })
+
         return view
     }
 
+    private fun onRecord(start: Boolean) = if (start) {
+        startRecording()
+    } else {
+        stopRecording()
+    }
+    private fun startRecording() {
+        var fileName = ""
+        recorder = MediaRecorder().apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setOutputFile(fileName)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
 
+            try {
+                prepare()
+            } catch (e: IOException) {
+                val LOG_TAG = "RECORD STUFF"
+                Log.e(LOG_TAG, "prepare() failed")
+            }
+
+            start()
+        }
+    }
+
+    private fun stopRecording() {
+        recorder?.apply {
+            stop()
+            release()
+        }
+        recorder = null
+    }
+
+    override fun onStop() {
+        super.onStop()
+        recorder?.release()
+        recorder = null
+    }
 
 }
