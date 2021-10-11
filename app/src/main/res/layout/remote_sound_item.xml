@@ -23,11 +23,11 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button2"
+            <RadioButton
+                android:id="@+id/selectSound"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ADD" />
+                android:layout_height="65dp" />
+
         </LinearLayout>
 
         <TextView
