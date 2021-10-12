@@ -2,7 +2,9 @@ package com.example.cs_4518_finalproject
 
 import android.content.Context
 import android.graphics.Color
+import android.media.MediaRecorder
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +12,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import java.io.File
+import java.io.IOException
+import java.lang.IllegalStateException
 import java.util.*
 
-private const val ARG_CRIME_ID = "sound_id"
 private const val TAG = "ADD RECORD FRAGMENT"
+private lateinit var sound: Sound
+
 class RecordFragment: Fragment() {
 
     interface Callbacks {
@@ -33,12 +39,59 @@ class RecordFragment: Fragment() {
 //        ViewModelProvider(this).get(AddSoundDetailViewModel::class.java)
 //    }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        val soundId: UUID = arguments?.getSerializable(ARG_CRIME_ID) as UUID
-//        Log.i(TAG, "args bundle $soundId")
-//        soundDetailViewModel.loadSound(soundId)
-//    }
+    private var recorder: MediaRecorder? = null
+    private var output: String? = null
+    private var mediaRecorder: MediaRecorder? = null
+
+
+    private val dir: File = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/")
+
+    private fun startRecording() {
+        try{
+            // create a File object for the parent directory
+            val recorderDirectory = File(Environment.getExternalStorageDirectory().absolutePath+"/soundrecorder/")
+            // have the object build the directory structure, if needed.
+            recorderDirectory.mkdirs()
+        }catch (e: IOException){
+            e.printStackTrace()
+        }
+
+        if(dir.exists()){
+//            output = SoundRepository.getSoundFile
+        }
+
+        mediaRecorder = MediaRecorder()
+
+        mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        mediaRecorder?.setOutputFile(output)
+
+        try {
+            println("Starting recording!")
+            mediaRecorder?.prepare()
+            mediaRecorder?.start()
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopRecording() {
+        if (recorder != null) {
+            recorder!!.release()
+            recorder = null
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sound=Sound()
+        val rnd = Random()
+        sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+        sound.filename = "No File Selected"
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,6 +119,7 @@ class RecordFragment: Fragment() {
             }
         })
 
+
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 callbacks?.onRecordDoneSelected()
@@ -74,11 +128,13 @@ class RecordFragment: Fragment() {
         addStartButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 callbacks?.onStartSelected()
+                startRecording()
             }
         })
         addStopButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 callbacks?.onStopSelected()
+                stopRecording()
             }
         })
         return view

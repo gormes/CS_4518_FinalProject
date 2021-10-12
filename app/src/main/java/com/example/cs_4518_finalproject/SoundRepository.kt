@@ -19,9 +19,11 @@ import java.util.concurrent.Executors
 
 private const val DATABASE_NAME = "sound-database2"
 
-class SoundRepository private constructor(context:Context) {
+class SoundRepository constructor(context:Context) {
 
     private val executor = Executors.newSingleThreadExecutor()
+    private val filesDir = context.applicationContext.filesDir
+    fun getSoundFile(sound: Sound): File = File(filesDir, sound.filename)
 
     private val database : SoundDatabase = Room.databaseBuilder(
         context.applicationContext,
@@ -48,6 +50,7 @@ class SoundRepository private constructor(context:Context) {
             soundDao.deleteSound(sound)
         }
     }
+
 
     companion object {
         private var INSTANCE: SoundRepository? = null
