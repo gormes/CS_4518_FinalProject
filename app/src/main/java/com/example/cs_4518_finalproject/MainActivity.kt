@@ -57,11 +57,10 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
                 .commit()
     }
 
-    override fun onRecordCancelSelected() {
+    override fun onAddRecordCancelSelected() {
         val fragment = AddSoundFragment()
         supportFragmentManager
                 .beginTransaction()
@@ -70,7 +69,7 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordDoneSelected(soundName: String, fileName: String) {
+    override fun onAddRecordDoneSelected(soundName: String, fileName: String) {
         val fragment = AddSoundFragment.newInstance(soundName, fileName)
         supportFragmentManager
                 .beginTransaction()
@@ -79,12 +78,29 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
+    override fun onEditRecordCancelSelected(soundId: UUID) {
+        val fragment = EditSoundFragment()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onEditRecordDoneSelected(fileName: String, soundId: UUID) {
+        val fragment = EditSoundFragment.newInstance(fileName, soundId)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     override fun onRecordRepeatSelected(soundName: String, soundId: UUID, inProgress: Boolean) {
         val fragment = RecordFragment.newInstance(soundName, soundId, inProgress)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
             .commit()
     }
 

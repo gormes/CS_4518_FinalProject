@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_marginBaseline="8dp">
 
     <LinearLayout
         android:id="@+id/formLayout"
@@ -40,13 +41,13 @@
             android:textSize="16sp" />
 
         <EditText
-                android:id="@+id/addSoundName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="32dp"
-                android:hint="Name of Sound" />
+            android:id="@+id/addSoundName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="32dp"
+            android:hint="Name of Sound" />
 
         <View
             android:id="@+id/divider2"
@@ -72,7 +73,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginTop="4dp"
             android:layout_marginRight="32dp"
-            android:text="No File Selected"/>
+            android:text="No File Selected" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -17,7 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import java.util.*
 import androidx.lifecycle.Observer
 
-private const val ARG_CRIME_ID = "sound_id"
+private const val ARG_SOUND_ID = "sound_id"
+private const val ARG_FILE_NAME = "file_name"
 private const val TAG = "EditSoundFragment"
 
 class EditSoundFragment : Fragment() {
@@ -29,12 +30,16 @@ class EditSoundFragment : Fragment() {
         fun onEditSaveSelected()
         fun onEditCancelSelected()
         fun onEditDeleteSelected()
+        fun onRecordButSelected(soundName: String, soundId: UUID)
     }
 
     private var callbacks: Callbacks? = null
     private lateinit var editSaveButton: Button
     private lateinit var editCancelButton: Button
     private lateinit var editDeleteButton: Button
+    private lateinit var editRecordButton: Button
+
+    private var newFileName: String? = null
 
     private val soundDetailViewModel: AddSoundDetailViewModel by lazy {
         ViewModelProvider(this).get(AddSoundDetailViewModel::class.java)
@@ -42,9 +47,12 @@ class EditSoundFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val soundId: UUID = arguments?.getSerializable(ARG_CRIME_ID) as UUID
-        Log.i(TAG, "args bundle $soundId")
+        val soundId: UUID = arguments?.getSerializable(ARG_SOUND_ID) as UUID
         soundDetailViewModel.loadSound(soundId)
+        arguments?.getSerializable(ARG_FILE_NAME).let{
+            newFileName = arguments?.getSerializable(ARG_FILE_NAME) as String
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -64,6 +72,10 @@ class EditSoundFragment : Fragment() {
             Observer { sound ->
                 sound?.let {
                     this.sound = sound
+                    newFileName.let{
+                        this.sound.filename = newFileName!!
+                        soundDetailViewModel.saveSound(this.sound)
+                    }
                     updateUI()
                 }
             })
@@ -121,6 +133,13 @@ class EditSoundFragment : Fragment() {
             }
 
         })
+        editRecordButton = view.findViewById(R.id.editRecordButton)
+        editRecordButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                sound.name = soundName.text.toString()
+                callbacks?.onRecordButSelected(sound.name, sound.id)
+            }
+        })
         return view
     }
 
@@ -149,7 +168,7 @@ class EditSoundFragment : Fragment() {
         }
         soundName.addTextChangedListener(titleWatcher)
     }
-//
+    //
     override fun onStop() {
         super.onStop()
     }
@@ -157,7 +176,16 @@ class EditSoundFragment : Fragment() {
     companion object {
         fun newInstance(soundId: UUID): EditSoundFragment {
             val args = Bundle().apply {
-                putSerializable(ARG_CRIME_ID, soundId)
+                putSerializable(ARG_SOUND_ID, soundId)
+            }
+            return EditSoundFragment().apply {
+                arguments = args
+            }
+        }
+        fun newInstance(fileName: String, soundId: UUID): EditSoundFragment {
+            val args = Bundle().apply {
+                putSerializable(ARG_SOUND_ID, soundId)
+                putSerializable(ARG_FILE_NAME, fileName)
             }
             return EditSoundFragment().apply {
                 arguments = args

@@ -86,9 +86,12 @@ class AddSoundFragment: Fragment() {
                 if(sound.name == ""){
                     sound.name = "Sound Effect: ${sound.id}"
                 }
-                Log.i(TAG, "${sound}")
-                soundDetailViewModel.addSound(sound)
-                callbacks?.onAddDoneSelected()
+                if(sound.filename == ""){
+                    callbacks?.onAddCancelSelected()
+                } else {
+                    soundDetailViewModel.addSound(sound)
+                    callbacks?.onAddDoneSelected()
+                }
             }
 
         })

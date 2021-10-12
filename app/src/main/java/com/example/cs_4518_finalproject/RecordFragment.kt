@@ -25,9 +25,11 @@ class RecordFragment: Fragment() {
     interface Callbacks {
         fun onStartSelected()
         fun onStopSelected()
-        fun onRecordCancelSelected()
-        fun onRecordDoneSelected(soundName: String, fileName: String)
+        fun onAddRecordCancelSelected()
+        fun onAddRecordDoneSelected(soundName: String, fileName: String)
         fun onRecordRepeatSelected(soundName: String, soundId: UUID, inProgress: Boolean)
+        fun onEditRecordCancelSelected(soundId: UUID)
+        fun onEditRecordDoneSelected(fileName: String, soundId: UUID)
     }
 
     private var callbacks: Callbacks? = null
@@ -63,15 +65,24 @@ class RecordFragment: Fragment() {
 
 
     private fun startRecording() {
-        var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings")
+        var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings/")
         if(dir.exists()){
-            output = "${dir}"+"${soundId}.3gp"
-            fileName = "${dir}"+"${soundId}.3gp"
+            output = "${dir}"+"/${soundId}.3gp"
+            if(soundName == ""){
+                fileName = "${dir}"+"/${soundId}.3gp"
+            } else {
+                fileName = "${dir}"+"/${soundName}.3gp"
+            }
         } else {
             dir.mkdir()
-            output = "${dir}"+"${soundId}.3gp"
-            fileName = "${dir}"+"${soundId}.3gp"
+            output = "${dir}"+"/${soundId}.3gp"
+            if(soundName == ""){
+                fileName = "${dir}"+"/${soundId}.3gp"
+            } else {
+                fileName = "${dir}"+"/${soundName}.3gp"
+            }
         }
+
 
 
         mediaRecorder = MediaRecorder()
@@ -133,18 +144,23 @@ class RecordFragment: Fragment() {
 
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordCancelSelected()
+                callbacks?.onAddRecordCancelSelected()
             }
         })
 
 
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings")
+                var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings/")
                 if(dir.exists()){
-                    fileName = "${dir}"+"${soundId}.3gp"
+                    if(soundName == ""){
+                        fileName = "${dir}"+"/${soundId}.3gp"
+                    } else {
+                        fileName = "${dir}"+"/${soundName}.3gp"
+                    }
+
                 }
-                callbacks?.onRecordDoneSelected(soundName, fileName)
+                callbacks?.onAddRecordDoneSelected(soundName, fileName)
             }
         })
         addStartButton.setOnClickListener(object : View.OnClickListener {
