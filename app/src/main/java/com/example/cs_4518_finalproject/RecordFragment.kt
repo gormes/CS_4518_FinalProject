@@ -144,6 +144,16 @@ class RecordFragment: Fragment() {
 
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
+                var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings/")
+                if(dir.exists()){
+                    if(soundName == ""){
+                        fileName = "${dir}"+"/${soundId}.3gp"
+                    } else {
+                        fileName = "${dir}"+"/${soundName}.3gp"
+                    }
+                    var currentSoundFile = File("${fileName}")
+                    currentSoundFile.delete()
+                }
                 callbacks?.onAddRecordCancelSelected()
             }
         })
