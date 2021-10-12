@@ -1,16 +1,39 @@
 package com.example.cs_4518_finalproject
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.util.*
+import android.Manifest
+import android.widget.Button
+import android.widget.TextView
 
 private const val TAG = "MAIN ACTIVITY"
+private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
+
 class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks, AddSoundFragment.Callbacks,
 EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks {
+    private var permissionToRecordAccepted = false
+    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
+
+    override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<String>,
+            grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionToRecordAccepted = if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
+        } else {
+            false
+        }
+        if (!permissionToRecordAccepted) finish()
+    }
+
 
     override fun onAddSelected() {
         val fragment = AddSoundFragment()
@@ -72,6 +95,9 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
+
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container)
         if (currentFragment == null) {
