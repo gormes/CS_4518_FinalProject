@@ -54,8 +54,12 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordButSelected(soundId:UUID, soundName:String) {
-        val fragment = RecordFragment.newInstance(soundId,soundName)
+    override fun onRecordCanceledSelected() {
+        Log.i(TAG, "WAS THIS THE ISSUE")
+    }
+
+    override fun onRecordButSelected() {
+        val fragment = RecordFragment()
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -64,7 +68,7 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
     }
 
     override fun onRecordCancelSelected() {
-        val fragment = AddSoundFragment.newInstance()
+        val fragment = AddSoundFragment()
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -72,8 +76,8 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordDoneSelected(fileName:String) {
-        val fragment = AddSoundFragment.newInstance(fileName)
+    override fun onRecordDoneSelected() {
+        val fragment = AddSoundFragment()
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)

@@ -31,8 +31,8 @@ class RecordFragment: Fragment() {
     interface Callbacks {
         fun onStartSelected()
         fun onStopSelected()
-        fun onRecordCancelSelected()
-        fun onRecordDoneSelected(fileName:String)
+        fun onRecordCanceledSelected()
+        fun onRecordDoneSelected()
     }
 
     private var callbacks: Callbacks? = null
@@ -51,23 +51,20 @@ class RecordFragment: Fragment() {
     val recorderDirectory: File? = null
 
     private var fileName: String? = null
-    private lateinit var soundId: UUID
+    private var soundId: UUID = UUID.randomUUID()
     private lateinit var soundName :String
 
     private var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val soundGet: UUID = arguments?.getSerializable(ARG_SOUND) as UUID
-        soundId = soundGet
-        val soundNameGet: String = arguments?.getSerializable(ARG_SOUND_NAME) as String
-        soundName = soundNameGet
+        fileName = ""
     }
 
 
     private fun startRecording() {
-        dir.mkdir()
-        output = "${dir}"+"${sound.id}.3gp"
+        //dir.mkdir()
+        output = "${dir}"+"${soundId}.3gp"
 
         mediaRecorder = MediaRecorder()
 
@@ -117,7 +114,7 @@ class RecordFragment: Fragment() {
         addDoneButton = view.findViewById(R.id.recordDoneButton)
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordCancelSelected()
+                callbacks?.onRecordCanceledSelected()
             }
         })
 
@@ -140,22 +137,12 @@ class RecordFragment: Fragment() {
         })
         addStopButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onStopSelected()
+                callbacks?.onStartSelected()
                 stopRecording()
             }
         })
         return view
     }
 
-    companion object {
-        fun newInstance(soundId: UUID, soundName:String): RecordFragment {
-            val args = Bundle().apply {
-                putSerializable(ARG_SOUND, soundId)
-                putSerializable(ARG_SOUND_NAME, soundName)
-            }
-            return RecordFragment().apply {
-                arguments = args
-            }
-        }
-    }
+
 }

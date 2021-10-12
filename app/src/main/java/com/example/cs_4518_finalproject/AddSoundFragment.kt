@@ -27,7 +27,7 @@ class AddSoundFragment: Fragment() {
     interface Callbacks {
         fun onAddDoneSelected()
         fun onAddCancelSelected()
-        fun onRecordButSelected(soundId: UUID, soundName:String)
+        fun onRecordButSelected()
         fun onRecordCancelSelected()
     }
 
@@ -45,14 +45,6 @@ class AddSoundFragment: Fragment() {
         sound=Sound()
         val rnd = Random()
         sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-
-
-        val fileName: String= arguments?.getSerializable(ARG_SOUND) as String
-        if(fileName == null){
-            sound.filename = fileName
-        }else{
-            sound.filename = "No File Selected"
-        }
 
     }
     override fun onAttach(context: Context) {
@@ -95,7 +87,7 @@ class AddSoundFragment: Fragment() {
 
         addRecordButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordButSelected(sound.id, sound.name)
+                callbacks?.onRecordButSelected()
             }
         })
 
@@ -107,19 +99,5 @@ class AddSoundFragment: Fragment() {
 
         })
         return view
-    }
-    companion object {
-        fun newInstance(): AddSoundFragment {
-            return AddSoundFragment()
-        }
-
-        fun newInstance(fileName: String): AddSoundFragment {
-            val args = Bundle().apply {
-                putSerializable(ARG_SOUND, fileName)
-            }
-            return AddSoundFragment().apply {
-                arguments = args
-            }
-        }
     }
 }
