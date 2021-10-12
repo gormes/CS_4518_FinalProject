@@ -18,6 +18,7 @@ import java.util.*
 private const val TAG = "ADD RECORD FRAGMENT"
 private const val ARG_SOUND_ID = "soundId"
 private const val ARG_SOUND_NAME = "soundName"
+private const val ARG_IN_PROGRESS = "inProgress"
 
 class RecordFragment: Fragment() {
 
@@ -26,7 +27,7 @@ class RecordFragment: Fragment() {
         fun onStopSelected()
         fun onRecordCancelSelected()
         fun onRecordDoneSelected(soundName: String, fileName: String)
-        fun onRecordRepeatSelected(soundName: String, soundId: UUID)
+        fun onRecordRepeatSelected(soundName: String, soundId: UUID, inProgress: Boolean)
     }
 
     private var callbacks: Callbacks? = null
@@ -47,12 +48,14 @@ class RecordFragment: Fragment() {
     private var fileName: String = ""
     private var soundId: UUID = UUID.randomUUID()
     private var soundName :String = ""
+    private var inProgress : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let{
             soundName = arguments?.getSerializable(ARG_SOUND_NAME) as String
             soundId = arguments?.getSerializable(ARG_SOUND_ID) as UUID
+            inProgress = arguments?.getSerializable(ARG_IN_PROGRESS) as Boolean
             Log.d(TAG, "Recorder recieved: ${soundName}")
             Log.d(TAG, "Recorde recieved: ${soundId}")
         }
@@ -117,6 +120,17 @@ class RecordFragment: Fragment() {
         addStopButton = view.findViewById(R.id.recordStop)
         addCancelButton = view.findViewById(R.id.recordCancelButton)
         addDoneButton = view.findViewById(R.id.recordDoneButton)
+        if(inProgress == false){
+            addStartButton.setVisibility(View.VISIBLE)
+            addStopButton.setVisibility(View.GONE)
+        } else {
+            addStartButton.setVisibility(View.GONE)
+            addStopButton.setVisibility(View.VISIBLE)
+            addCancelButton.setVisibility(View.GONE)
+            addDoneButton.setVisibility(View.GONE)
+
+        }
+
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 callbacks?.onRecordCancelSelected()
@@ -135,13 +149,13 @@ class RecordFragment: Fragment() {
         })
         addStartButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordRepeatSelected(soundName, soundId)
+                callbacks?.onRecordRepeatSelected(soundName, soundId, true)
                 startRecording()
             }
         })
         addStopButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordRepeatSelected(soundName, soundId)
+                callbacks?.onRecordRepeatSelected(soundName, soundId, false)
                 stopRecording()
             }
         })
@@ -149,10 +163,11 @@ class RecordFragment: Fragment() {
     }
 
     companion object {
-        fun newInstance(soundName: String, soundId: UUID): RecordFragment {
+        fun newInstance(soundName: String, soundId: UUID, inProgress: Boolean): RecordFragment {
             val args = Bundle().apply {
                 putSerializable(ARG_SOUND_NAME, soundName)
                 putSerializable(ARG_SOUND_ID, soundId)
+                putSerializable(ARG_IN_PROGRESS, inProgress)
             }
             return RecordFragment().apply {
                 arguments = args
