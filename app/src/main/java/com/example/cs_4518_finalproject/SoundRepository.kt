@@ -1,10 +1,19 @@
 package com.example.cs_4518_finalproject;
 
+import android.annotation.SuppressLint
 import android.content.Context;
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.media.MediaRecorder
+import android.net.Uri
+import android.os.Environment
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import java.io.File
+import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
 

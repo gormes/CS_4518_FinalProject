@@ -3,37 +3,75 @@ package com.example.cs_4518_finalproject
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import java.util.*
 import android.Manifest
-import android.widget.Button
-import android.widget.TextView
+import android.icu.text.AlphabeticIndex
+import android.media.MediaRecorder
+import androidx.core.content.ContextCompat
 
 private const val TAG = "MAIN ACTIVITY"
-private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks, AddSoundFragment.Callbacks,
-EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks {
-    private var permissionToRecordAccepted = false
-    private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
+EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragment.Callbacks {
 
-    override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String>,
-            grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionToRecordAccepted = if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
-            grantResults[0] == PackageManager.PERMISSION_GRANTED
-        } else {
-            false
+    private fun checkNeededPermissions() {
+        println("Requesting permission")
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            println("Requesting permission")
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO), 0)
         }
-        if (!permissionToRecordAccepted) finish()
     }
 
+    override fun onStartSelected() {
+        val fragment = RecordFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun onStopSelected() {
+        val fragment = RecordFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun onRecordButSelected() {
+        val fragment = RecordFragment.newInstance()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun onRecordCancelSelected() {
+        val fragment = AddSoundFragment.newInstance()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun onRecordDoneSelected() {
+        val fragment = AddSoundFragment.newInstance()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
 
     override fun onAddSelected() {
         val fragment = AddSoundFragment()
@@ -96,7 +134,7 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
+        checkNeededPermissions()
 
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container)
@@ -136,6 +174,4 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks {
             .addToBackStack(null)
             .commit()
     }
-
-
 }

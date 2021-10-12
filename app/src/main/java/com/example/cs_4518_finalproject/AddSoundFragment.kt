@@ -27,11 +27,15 @@ class AddSoundFragment: Fragment() {
     interface Callbacks {
         fun onAddDoneSelected()
         fun onAddCancelSelected()
+        fun onRecordButSelected()
+        fun onRecordCancelSelected()
+        fun onRecordDoneSelected()
     }
 
     private var callbacks: Callbacks? = null
     private lateinit var addDoneButton: Button
     private lateinit var addCancelButton: Button
+    private lateinit var addRecordButton: Button
 
     private val soundDetailViewModel: AddSoundDetailViewModel by lazy {
         ViewModelProvider(this).get(AddSoundDetailViewModel::class.java)
@@ -68,6 +72,7 @@ class AddSoundFragment: Fragment() {
         soundName = view.findViewById(R.id.addSoundName)
         soundFileName = view.findViewById(R.id.addClipName)
         addDoneButton = view.findViewById(R.id.newDoneButton)
+        addRecordButton = view.findViewById(R.id.addRecord)
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 sound.name = soundName.text.toString()
@@ -80,6 +85,13 @@ class AddSoundFragment: Fragment() {
             }
 
         })
+
+        addRecordButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                callbacks?.onRecordButSelected()
+            }
+        })
+
         addCancelButton = view.findViewById(R.id.newCancelButton)
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
@@ -89,7 +101,9 @@ class AddSoundFragment: Fragment() {
         })
         return view
     }
-
-
-
+    companion object {
+        fun newInstance(): AddSoundFragment {
+            return AddSoundFragment()
+        }
+    }
 }
