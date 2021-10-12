@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import java.util.*
 import androidx.lifecycle.Observer
-
+private const val ARG_SOUND = "sound"
 private const val TAG = "ADD SOUND FRAGMENT"
 class AddSoundFragment: Fragment() {
 
@@ -27,9 +27,8 @@ class AddSoundFragment: Fragment() {
     interface Callbacks {
         fun onAddDoneSelected()
         fun onAddCancelSelected()
-        fun onRecordButSelected()
+        fun onRecordButSelected(soundId: UUID, soundName:String)
         fun onRecordCancelSelected()
-        fun onRecordDoneSelected()
     }
 
     private var callbacks: Callbacks? = null
@@ -46,7 +45,15 @@ class AddSoundFragment: Fragment() {
         sound=Sound()
         val rnd = Random()
         sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-        sound.filename = "No File Selected"
+
+
+        val fileName: String= arguments?.getSerializable(ARG_SOUND) as String
+        if(fileName == null){
+            sound.filename = fileName
+        }else{
+            sound.filename = "No File Selected"
+        }
+
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -88,7 +95,7 @@ class AddSoundFragment: Fragment() {
 
         addRecordButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordButSelected()
+                callbacks?.onRecordButSelected(sound.id, sound.name)
             }
         })
 
@@ -104,6 +111,15 @@ class AddSoundFragment: Fragment() {
     companion object {
         fun newInstance(): AddSoundFragment {
             return AddSoundFragment()
+        }
+
+        fun newInstance(fileName: String): AddSoundFragment {
+            val args = Bundle().apply {
+                putSerializable(ARG_SOUND, fileName)
+            }
+            return AddSoundFragment().apply {
+                arguments = args
+            }
         }
     }
 }

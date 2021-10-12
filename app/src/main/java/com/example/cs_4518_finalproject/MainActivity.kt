@@ -9,7 +9,9 @@ import java.util.*
 import android.Manifest
 import android.icu.text.AlphabeticIndex
 import android.media.MediaRecorder
+import android.os.Environment
 import androidx.core.content.ContextCompat
+import java.io.File
 
 private const val TAG = "MAIN ACTIVITY"
 
@@ -23,8 +25,14 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
             println("Requesting permission")
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO), 0)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO
+                ), 0
+            )
         }
     }
 
@@ -46,8 +54,8 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordButSelected() {
-        val fragment = RecordFragment.newInstance()
+    override fun onRecordButSelected(soundId:UUID, soundName:String) {
+        val fragment = RecordFragment.newInstance(soundId,soundName)
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -64,8 +72,8 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordDoneSelected() {
-        val fragment = AddSoundFragment.newInstance()
+    override fun onRecordDoneSelected(fileName:String) {
+        val fragment = AddSoundFragment.newInstance(fileName)
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -119,7 +127,6 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
     }
 
     override fun onSoundSelected(soundId: UUID) {
-            Log.i(TAG, "MainActivity.onCrimeSelected: $soundId")
         val fragment = EditSoundFragment.newInstance(soundId)
         supportFragmentManager
             .beginTransaction()
