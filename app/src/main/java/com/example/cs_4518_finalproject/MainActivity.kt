@@ -2,14 +2,11 @@ package com.example.cs_4518_finalproject
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import java.util.*
 import android.Manifest
-import android.icu.text.AlphabeticIndex
-import android.media.MediaRecorder
-import android.os.Environment
+import android.util.Log
 import androidx.core.content.ContextCompat
 import java.io.File
 
@@ -54,12 +51,9 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordCanceledSelected() {
-        Log.i(TAG, "WAS THIS THE ISSUE")
-    }
 
-    override fun onRecordButSelected() {
-        val fragment = RecordFragment()
+    override fun onRecordButSelected(soundName: String, soundId: UUID) {
+        val fragment = RecordFragment.newInstance(soundName, soundId)
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -76,8 +70,8 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordDoneSelected() {
-        val fragment = AddSoundFragment()
+    override fun onRecordDoneSelected(soundName: String, fileName: String) {
+        val fragment = AddSoundFragment.newInstance(soundName, fileName)
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)

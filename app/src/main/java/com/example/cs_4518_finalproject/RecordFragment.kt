@@ -1,19 +1,13 @@
 package com.example.cs_4518_finalproject
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
-import android.graphics.Color
 import android.media.MediaRecorder
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import java.io.File
@@ -22,7 +16,7 @@ import java.lang.IllegalStateException
 import java.util.*
 
 private const val TAG = "ADD RECORD FRAGMENT"
-private const val ARG_SOUND = "sound"
+private const val ARG_SOUND_ID = "soundId"
 private const val ARG_SOUND_NAME = "soundName"
 private lateinit var sound: Sound
 
@@ -31,8 +25,8 @@ class RecordFragment: Fragment() {
     interface Callbacks {
         fun onStartSelected()
         fun onStopSelected()
-        fun onRecordCanceledSelected()
-        fun onRecordDoneSelected()
+        fun onRecordCancelSelected()
+        fun onRecordDoneSelected(soundName: String, fileName: String)
     }
 
     private var callbacks: Callbacks? = null
@@ -50,21 +44,35 @@ class RecordFragment: Fragment() {
     private var mediaRecorder: MediaRecorder? = null
     val recorderDirectory: File? = null
 
-    private var fileName: String? = null
-    private var soundId: UUID = UUID.randomUUID()
+    private lateinit var fileName: String
+    private lateinit var soundId: UUID
     private lateinit var soundName :String
-
-    private var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fileName = ""
+        soundId = UUID.randomUUID()
+        soundName = ""
+        arguments?.let{
+            soundName = arguments?.getSerializable(ARG_SOUND_NAME) as String
+            soundId = arguments?.getSerializable(ARG_SOUND_ID) as UUID
+            Log.d(TAG, "REcorder recieved: ${soundName}")
+            Log.d(TAG, "Recorde recieved: ${soundId}")
+        }
     }
 
 
     private fun startRecording() {
-        //dir.mkdir()
-        output = "${dir}"+"${soundId}.3gp"
+        var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings")
+        if(dir.exists()){
+            output = "${dir}"+"${soundId}.3gp"
+            fileName = "${dir}"+"${soundId}.3gp"
+        } else {
+            dir.mkdir()
+            output = "${dir}"+"${soundId}.3gp"
+            fileName = "${dir}"+"${soundId}.3gp"
+        }
+
 
         mediaRecorder = MediaRecorder()
 
@@ -114,19 +122,14 @@ class RecordFragment: Fragment() {
         addDoneButton = view.findViewById(R.id.recordDoneButton)
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordCanceledSelected()
+                callbacks?.onRecordCancelSelected()
             }
         })
 
 
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-//                if(fileName == null){
-//                    callbacks?.onRecordDoneSelected(null)
-//                } else {
-//                    callbacks?.onRecordDoneSelected(fileName)
-//                }
-//
+                callbacks?.onRecordDoneSelected(soundName, fileName)
             }
         })
         addStartButton.setOnClickListener(object : View.OnClickListener {
@@ -144,5 +147,19 @@ class RecordFragment: Fragment() {
         return view
     }
 
+    companion object {
+        fun newInstance(soundName: String, soundId: UUID): RecordFragment {
+            val args = Bundle().apply {
+                putSerializable(ARG_SOUND_NAME, soundName)
+                putSerializable(ARG_SOUND_ID, soundId)
+            }
+            return RecordFragment().apply {
+                arguments = args
+            }
+        }
+        fun newInstance(): RecordFragment {
+            return RecordFragment()
+        }
+    }
 
 }
