@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import java.util.*
 
 private const val TAG = "ADD SOUND FRAGMENT"
+private const val NUM_ROWS = "row_num"
+
 class AddSoundFragment: Fragment() {
 
     private lateinit var sound: Sound
@@ -40,6 +42,7 @@ class AddSoundFragment: Fragment() {
         val rnd = Random()
         sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
         sound.filename = "No File Selected"
+        sound.listorder = arguments?.getSerializable(NUM_ROWS) as Int
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -87,6 +90,15 @@ class AddSoundFragment: Fragment() {
         return view
     }
 
-
+    companion object {
+        fun newInstance(numRows: Int): AddSoundFragment {
+            val args = Bundle().apply {
+                putSerializable(NUM_ROWS, numRows)
+            }
+            return AddSoundFragment().apply {
+                arguments = args
+            }
+        }
+    }
 
 }

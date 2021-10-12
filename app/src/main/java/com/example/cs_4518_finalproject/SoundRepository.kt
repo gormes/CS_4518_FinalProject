@@ -3,12 +3,10 @@ package com.example.cs_4518_finalproject;
 import android.content.Context;
 import androidx.lifecycle.LiveData
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import java.util.*
 import java.util.concurrent.Executors
 
-private const val DATABASE_NAME = "sound-database2"
+private const val DATABASE_NAME = "sound-database3"
 
 class SoundRepository private constructor(context:Context) {
 
@@ -21,9 +19,10 @@ class SoundRepository private constructor(context:Context) {
     ).build()
 
     private val soundDao = database.soundDao()
+
     fun getSounds(): LiveData<List<Sound>> = soundDao.getSounds()
     fun getSound(id: UUID): LiveData<Sound> = soundDao.getSound(id)
-
+    fun getSoundByOrder(listorder: Int): LiveData<Sound> = soundDao.getSoundByList(listorder)
     fun updateSound(sound: Sound) {
         executor.execute {
             soundDao.updateSound(sound)

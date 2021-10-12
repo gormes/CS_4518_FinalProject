@@ -12,8 +12,8 @@ private const val TAG = "MAIN ACTIVITY"
 class MainActivity : AppCompatActivity(), SoundboardListFragment.Callbacks, AddSoundFragment.Callbacks,
 EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks {
 
-    override fun onAddSelected() {
-        val fragment = AddSoundFragment()
+    override fun onAddSelected(numRows: Int) {
+        val fragment = AddSoundFragment.newInstance(numRows)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
@@ -58,7 +58,6 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks {
     }
 
     override fun onSoundSelected(soundId: UUID) {
-            Log.i(TAG, "MainActivity.onCrimeSelected: $soundId")
         val fragment = EditSoundFragment.newInstance(soundId)
         supportFragmentManager
             .beginTransaction()
@@ -111,5 +110,12 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks {
             .commit()
     }
 
-
+    override fun onRestartList() {
+        val fragment = EditSoundboardListFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 }
