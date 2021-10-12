@@ -24,16 +24,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <provider
-                android:name="androidx.core.content.FileProvider"
-                android:authorities="com.example.cs_4518_finalproject.fileprovider"
-                android:exported="false"
-                android:grantUriPermissions="true">
-                <meta-data
-                    android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/files"/>
-            </provider>
         </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.cs_4518_finalproject.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files"/>
+        </provider>
     </application>
 
 </manifest>
