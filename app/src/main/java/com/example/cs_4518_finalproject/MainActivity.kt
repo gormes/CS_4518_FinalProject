@@ -79,6 +79,15 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
+    override fun onRecordRepeatSelected(soundName: String, soundId: UUID) {
+        val fragment = RecordFragment.newInstance(soundName, soundId)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     override fun onAddSelected() {
         val fragment = AddSoundFragment()
         supportFragmentManager
