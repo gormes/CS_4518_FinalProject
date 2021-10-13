@@ -37,7 +37,7 @@ class AddSoundFragment: Fragment() {
     private lateinit var addRecordButton: Button
 
     private val soundDetailViewModel: SoundDetailViewModel by lazy {
-        ViewModelProvider(this).get(soundDetailViewModel::class.java)
+        ViewModelProvider(this).get(SoundDetailViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

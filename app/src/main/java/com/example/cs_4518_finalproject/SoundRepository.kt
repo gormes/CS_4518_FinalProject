@@ -36,10 +36,17 @@ class SoundRepository constructor(context:Context) {
     fun getSounds(): LiveData<List<Sound>> = soundDao.getSounds()
     fun getSound(id: UUID): LiveData<Sound> = soundDao.getSound(id)
     fun getSoundByOrder(listorder: Int): LiveData<Sound> = soundDao.getSoundByList(listorder)
-    fun getNum(): Int = soundDao.getNum()
+    fun getNum(): Int {
+        var i = 0
+        executor.execute{
+            i = soundDao.getNum()
+        }
+        return i
+    }
+
     fun updateSound(sound: Sound) {
         executor.execute {
-            soundDao.updateSound(sound)
+
         }
     }
     fun addSound(sound: Sound) {

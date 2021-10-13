@@ -148,7 +148,12 @@ class RecordFragment: Fragment() {
                 if(edit == true){
                     callbacks?.onEditRecordCancelSelected(soundId)
                 } else {
-                    callbacks?.onAddRecordCancelSelected()
+                    var prevFileName = "${dir}"+"${soundId}.3gp"
+                    var prevFile:File = File(prevFileName)
+                    if(prevFile.exists()){
+                        callbacks?.onAddRecordDoneSelected(soundName,"${dir}"+"${soundId}.3gp")
+                    }
+                    callbacks?.onAddRecordDoneSelected(soundName,"")
                 }
 
             }
