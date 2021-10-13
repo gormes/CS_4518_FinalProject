@@ -115,9 +115,9 @@ class SoundboardListFragment : Fragment(){
 //            Log.d(TAG, "Recorde recieved: ${soundId}")
 //        }
     }
-
+    private var player = MediaPlayer()
     private fun playRecording(sound : Sound) {
-        var player = MediaPlayer()
+        player = MediaPlayer()
         soundId = sound.id
         soundName = sound.name
         fileName = sound.filename

@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import java.util.*
 import androidx.lifecycle.Observer
 
-private const val ARG_CRIME_ID = "sound_id"
+private const val ARG_SOUND_ID = "sound_id"
 private const val ARG_FILE_NAME = "fileName"
 private const val TAG = "EditSoundFragment"
 
@@ -44,7 +44,7 @@ class EditSoundFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val soundId: UUID = arguments?.getSerializable(ARG_CRIME_ID) as UUID
+        val soundId: UUID = arguments?.getSerializable(ARG_SOUND_ID) as UUID
         arguments?.let{
 
             var newFileName = arguments?.getSerializable(ARG_FILE_NAME) as String
@@ -111,7 +111,9 @@ class EditSoundFragment : Fragment() {
         editSaveButton = view.findViewById(R.id.editSaveButton)
         editSaveButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                soundDetailViewModel.saveSound(sound)
+                soundDetailViewModel.deleteSound(sound)
+                sound.name = soundName.text.toString()
+                soundDetailViewModel.addSound(sound)
                 callbacks?.onEditSaveSelected()
             }
 
@@ -158,7 +160,7 @@ class EditSoundFragment : Fragment() {
         }
         soundName.addTextChangedListener(titleWatcher)
     }
-//
+    //
     override fun onStop() {
         super.onStop()
     }
@@ -167,7 +169,7 @@ class EditSoundFragment : Fragment() {
 
         fun newInstance(soundId: UUID, fileName: String): EditSoundFragment {
             val args = Bundle().apply {
-                putSerializable(ARG_CRIME_ID, soundId)
+                putSerializable(ARG_SOUND_ID, soundId)
                 putSerializable(ARG_FILE_NAME, fileName)
             }
             return EditSoundFragment().apply {

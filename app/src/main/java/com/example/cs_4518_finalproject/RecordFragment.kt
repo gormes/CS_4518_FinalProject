@@ -3,6 +3,7 @@ package com.example.cs_4518_finalproject
 import android.content.Context
 import android.media.MediaRecorder
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -65,7 +66,7 @@ class RecordFragment: Fragment() {
 
 
     private fun startRecording() {
-        var dir: File = File("/data/data/com.example.cs_4518_finalproject/files/")
+        var dir: File = File("/data/data/com.example.cs_4518_finalproject/files")
         if(dir.exists()){
             output = "${dir}"+"/${soundId}1.3gp"
             fileName = "${dir}"+"/${soundId}1.3gp"
@@ -73,6 +74,10 @@ class RecordFragment: Fragment() {
             dir.mkdir()
             output = "${dir}"+"/${soundId}1.3gp"
             fileName = "${dir}"+"/${soundId}1.3gp"
+        }
+        if(edit){
+            output = "${dir}"+"/${soundId}.3gp"
+            fileName = "${dir}"+"/${soundId}.3gp"
         }
 
 
@@ -135,13 +140,16 @@ class RecordFragment: Fragment() {
 
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                var dir: File = File("/data/data/com.example.cs_4518_finalproject/files/")
+                var dir: File = File("/data/data/com.example.cs_4518_finalproject/files")
 
                 if(edit == true){
                     callbacks?.onEditRecordCancelSelected(soundId)
                 } else {
                     var prevFileName = "${dir}"+"/${soundId}1.3gp"
                     var prevFile:File = File(prevFileName)
+                    var newFileName =  "${dir}"+"/${soundId}.3gp"
+                    var newFile:File = File(newFileName)
+                    newFile.renameTo(prevFile)
                     if(prevFile.exists()){
                         callbacks?.onAddRecordDoneSelected(soundName,"${dir}"+"/${soundId}1.3gp")
                     }
