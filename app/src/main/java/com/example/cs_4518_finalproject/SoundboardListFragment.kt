@@ -116,9 +116,8 @@ class SoundboardListFragment : Fragment(){
 //        }
     }
 
-    private var player = MediaPlayer()
-
     private fun playRecording(sound : Sound) {
+        var player = MediaPlayer()
         soundId = sound.id
         soundName = sound.name
         fileName = sound.filename
