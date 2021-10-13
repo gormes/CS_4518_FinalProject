@@ -122,26 +122,28 @@ class SoundboardListFragment : Fragment(){
         fileName = sound.filename
          try {
              player.setDataSource(fileName)
+
              player.setOnCompletionListener {
-                 fun onCompletion(mediaPlayer: MediaPlayer) {
-                     stopPlaying()
-                 }
+                 player.stop()
+                 player.reset()
              }
-                player.prepare()
-                player.start()
+
+             player.prepare()
+             player.start()
+             println("playing sound")
             } catch (e: IllegalStateException) {
                 e.printStackTrace()
                 println("prepare failed")
             }
         }
 
-    private fun stopPlaying() {
-        if (player != null) {
+//    private fun stopPlaying() {
+//        if (player != null) {
 //            player.reset()
-            player.release()
-            //player = null
-        }
-    }
+//            player.release()
+//            //player = null
+//        }
+//    }
 
     private inner class SoundHolder(view: View)
         : RecyclerView.ViewHolder(view), View.OnClickListener {
