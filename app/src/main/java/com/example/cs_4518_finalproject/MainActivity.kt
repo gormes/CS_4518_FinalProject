@@ -116,8 +116,8 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
             .commit()
     }
 
-    override fun onAddSelected() {
-        val fragment = AddSoundFragment()
+    override fun onAddSelected(numRows: Int) {
+        val fragment = AddSoundFragment.newInstance(numRows)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
@@ -209,6 +209,15 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
     }
 
     override fun onEditDeleteSelected() {
+        val fragment = EditSoundboardListFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onRestartList() {
         val fragment = EditSoundboardListFragment.newInstance()
         supportFragmentManager
             .beginTransaction()

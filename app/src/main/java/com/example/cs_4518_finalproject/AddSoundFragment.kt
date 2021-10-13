@@ -19,6 +19,8 @@ import androidx.lifecycle.Observer
 private const val ARG_SOUND_NAME = "sound_name"
 private const val ARG_FILE_NAME = "file_name"
 private const val TAG = "ADD SOUND FRAGMENT"
+private const val NUM_ROWS = "row_num"
+
 class AddSoundFragment: Fragment() {
 
     private lateinit var sound: Sound
@@ -42,13 +44,14 @@ class AddSoundFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sound=Sound()
         val rnd = Random()
-        sound = Sound()
         sound.colorval = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
 
         arguments?.let{
             sound.name = arguments?.getSerializable(ARG_SOUND_NAME) as String
             sound.filename = arguments?.getSerializable(ARG_FILE_NAME) as String
+            sound.listorder = arguments?.getSerializable(NUM_ROWS) as Int
             Log.d(TAG, "Returning: ${sound.name}")
             Log.d(TAG, "Returning: ${sound.filename}")
         }
@@ -111,6 +114,14 @@ class AddSoundFragment: Fragment() {
     }
 
     companion object {
+        fun newInstance(numRows: Int): AddSoundFragment {
+            val args = Bundle().apply {
+                putSerializable(NUM_ROWS, numRows)
+            }
+            return AddSoundFragment().apply {
+                arguments = args
+            }
+        }
         fun newInstance(soundName: String, fileName : String): AddSoundFragment {
             val args = Bundle().apply {
                 putSerializable(ARG_SOUND_NAME, soundName)

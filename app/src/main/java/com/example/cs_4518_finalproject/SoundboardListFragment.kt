@@ -21,13 +21,15 @@ private const val TAG = "SoundboardListFragment"
 class SoundboardListFragment : Fragment(){
 
     interface Callbacks {
-        fun onAddSelected()
+        fun onAddSelected(numRows: Int)
         fun onEditSelected()
     }
     private var callbacks: Callbacks? = null
 
     private lateinit var addSoundButton: Button
     private lateinit var editSoundButton: Button
+
+    private var num_rows : Int = 0
 
     private lateinit var soundboardRecyclerView: RecyclerView
     private var adapter: SoundAdapter? = SoundAdapter(emptyList())
@@ -48,7 +50,7 @@ class SoundboardListFragment : Fragment(){
         addSoundButton = view.findViewById(R.id.newButton)
         addSoundButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onAddSelected()
+                callbacks?.onAddSelected(num_rows)
             }
 
         })
@@ -80,6 +82,7 @@ class SoundboardListFragment : Fragment(){
             viewLifecycleOwner,
             Observer { sounds ->
                 sounds?.let {
+                    num_rows = sounds.size
                     Log.i(TAG, "Got crimes ${sounds.size}")
                     updateUI(sounds)
                 }

@@ -23,6 +23,7 @@ class EditSoundboardListFragment : Fragment() {
     interface Callbacks {
         fun onBackSelected()
         fun onSoundSelected(soundId: UUID)
+        fun onRestartList()
     }
 
     private var callbacks: Callbacks? = null
@@ -31,6 +32,8 @@ class EditSoundboardListFragment : Fragment() {
 
     private lateinit var soundboardRecyclerView: RecyclerView
     private var adapter: SoundAdapter? = SoundAdapter(emptyList())
+
+    private var num_rows = 0
 
     private val soundboardListViewModel: SoundboardListViewModel by lazy {
         ViewModelProvider(this).get(SoundboardListViewModel::class.java)
@@ -55,6 +58,7 @@ class EditSoundboardListFragment : Fragment() {
 
         })
         soundboardRecyclerView.adapter = adapter
+        Log.i(TAG2, "Hello: ${soundboardListViewModel.getSoundByOrder(1).toString()}")
 
         return view
     }
@@ -75,12 +79,10 @@ class EditSoundboardListFragment : Fragment() {
             viewLifecycleOwner,
             Observer { sounds ->
                 sounds?.let {
-                    Log.i(TAG2, "Got crimes 2${sounds.size}")
+                    num_rows = sounds.size
                     updateUI(sounds)
                 }
             })
-
-
     }
 
 
@@ -94,10 +96,22 @@ class EditSoundboardListFragment : Fragment() {
         init {
             itemView.setOnClickListener(this)
             upArrow.setOnClickListener(){
-                Log.i(TAG2, "Up Clicked")
+                if (sound.listorder != 0){
+                    sound.listorder = sound.listorder - 1
+                    soundboardListViewModel.saveSound(sound)
+                    Log.i(
+                        TAG2, "${soundboardListViewModel.soundLiveData.value}")
+                    callbacks?.onRestartList()
+                }
+
             }
             downArrow.setOnClickListener(){
-                Log.i(TAG2, "DownClicked")
+                if(sound.listorder != num_rows){
+                    sound.listorder = sound.listorder + 1
+                    soundboardListViewModel.saveSound(sound)
+                    callbacks?.onRestartList()
+                }
+
             }
         }
 

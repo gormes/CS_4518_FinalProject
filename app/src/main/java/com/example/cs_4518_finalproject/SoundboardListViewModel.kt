@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import java.util.*
 
 
@@ -12,16 +14,26 @@ class SoundboardListViewModel: ViewModel() {
 
     private val soundRepository = SoundRepository.get()
     val soundListLiveData : LiveData<List<Sound>> = soundRepository.getSounds()
+
+    private val soundOrderLiveData = MutableLiveData<Int>()
+    var soundLiveData: LiveData<Sound> =
+        Transformations.switchMap(soundOrderLiveData) { listorder ->
+            soundRepository.getSoundByOrder(listorder)
+        }
+
+    fun loadSoundByOrder(listorder: Int) {
+        soundOrderLiveData.value = listorder
     }
 
-//    val sounds = mutableListOf<Sound>()
-//    init {
-//        for (i in 0 until 100) {
-//            val sound = Sound()
-//            sound.name = "Crime #$i"
-//            val rnd = Random()
-//            val color: Int = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-//            sound.colorval = color
-//            sounds += sound
-//        }
-//    }
+
+    fun getSoundByOrder(listorder: Int){
+        soundRepository.getSoundByOrder(listorder)
+    }
+
+    fun saveSound(sound: Sound) {
+        soundRepository.updateSound(sound)
+    }
+
+}
+
+

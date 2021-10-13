@@ -17,7 +17,7 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
 
-private const val DATABASE_NAME = "sound-database5"
+private const val DATABASE_NAME = "sound-database7"
 
 class SoundRepository constructor(context:Context) {
 
@@ -32,9 +32,10 @@ class SoundRepository constructor(context:Context) {
     ).build()
 
     private val soundDao = database.soundDao()
+
     fun getSounds(): LiveData<List<Sound>> = soundDao.getSounds()
     fun getSound(id: UUID): LiveData<Sound> = soundDao.getSound(id)
-
+    fun getSoundByOrder(listorder: Int): LiveData<Sound> = soundDao.getSoundByList(listorder)
     fun updateSound(sound: Sound) {
         executor.execute {
             soundDao.updateSound(sound)
