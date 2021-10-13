@@ -122,6 +122,7 @@ class SoundboardListFragment : Fragment(){
         soundId = sound.id
         soundName = sound.name
         fileName = sound.filename
+
          try {
              player.setDataSource(fileName)
 
@@ -166,8 +167,8 @@ class SoundboardListFragment : Fragment(){
         }
 
         override fun onClick(v: View?) {
+            Log.d(TAG, "FileName: ${sound}")
             playRecording(sound)
-            Log.i(TAG,"Eventually will play sound")
         }
 
     }

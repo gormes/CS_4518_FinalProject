@@ -65,14 +65,14 @@ class RecordFragment: Fragment() {
 
 
     private fun startRecording() {
-        var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings")
+        var dir: File = File("/data/data/com.example.cs_4518_finalproject/files/")
         if(dir.exists()){
-            output = "${dir}"+"${soundId}1.3gp"
-            fileName = "${dir}"+"${soundId}1.3gp"
+            output = "${dir}"+"/${soundId}1.3gp"
+            fileName = "${dir}"+"/${soundId}1.3gp"
         } else {
             dir.mkdir()
-            output = "${dir}"+"${soundId}1.3gp"
-            fileName = "${dir}"+"${soundId}1.3gp"
+            output = "${dir}"+"/${soundId}1.3gp"
+            fileName = "${dir}"+"/${soundId}1.3gp"
         }
 
 
@@ -135,19 +135,19 @@ class RecordFragment: Fragment() {
 
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings/")
+                var dir: File = File("/data/data/com.example.cs_4518_finalproject/files/")
                 if(dir.exists()){
-                    var currentFileName = "${dir}"+"${soundId}1.3gp"
+                    var currentFileName = "${dir}"+"/${soundId}1.3gp"
                     var newFile = File(currentFileName)
                     newFile.delete()
                 }
                 if(edit == true){
                     callbacks?.onEditRecordCancelSelected(soundId)
                 } else {
-                    var prevFileName = "${dir}"+"${soundId}.3gp"
+                    var prevFileName = "${dir}"+"/${soundId}.3gp"
                     var prevFile:File = File(prevFileName)
                     if(prevFile.exists()){
-                        callbacks?.onAddRecordDoneSelected(soundName,"${dir}"+"${soundId}.3gp")
+                        callbacks?.onAddRecordDoneSelected(soundName,"${dir}"+"/${soundId}.3gp")
                     }
                     callbacks?.onAddRecordDoneSelected(soundName,"")
                 }
@@ -158,10 +158,10 @@ class RecordFragment: Fragment() {
 
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings/")
+                var dir: File = File("/data/data/com.example.cs_4518_finalproject/files/")
                 if(dir.exists()){
-                    fileName = "${dir}"+"${soundId}.3gp"
-                    var currentFileName = "${dir}"+"${soundId}1.3gp"
+                    fileName = "${dir}"+"/${soundId}.3gp"
+                    var currentFileName = "${dir}"+"/${soundId}1.3gp"
                     var oldFile = File(fileName)
                     if(oldFile.exists()){
                         var newFile = File(currentFileName)
