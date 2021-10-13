@@ -61,6 +61,15 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
+    override fun onEditRecordButSelected(soundName: String, soundId: UUID, edit : Boolean) {
+        val fragment = RecordFragment.newInstance(soundName, soundId, false, edit)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     override fun onAddRecordCancelSelected() {
         val fragment = AddSoundFragment()
         supportFragmentManager
@@ -88,8 +97,10 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
             .commit()
     }
 
+
+
     override fun onEditRecordCancelSelected(soundId:UUID) {
-        val fragment = EditSoundFragment.newInstance(soundId)
+        val fragment = EditSoundFragment.newInstance(soundId, "")
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
@@ -151,7 +162,7 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
     }
 
     override fun onSoundSelected(soundId: UUID) {
-        val fragment = EditSoundFragment.newInstance(soundId)
+        val fragment = EditSoundFragment.newInstance(soundId,"")
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)

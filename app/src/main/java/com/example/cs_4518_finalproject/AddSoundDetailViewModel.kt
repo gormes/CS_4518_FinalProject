@@ -9,6 +9,9 @@ import java.util.*
 class AddSoundDetailViewModel: ViewModel() {
         private val soundRepository = SoundRepository.get()
         private val soundIdLiveData = MutableLiveData<UUID>()
+
+        var newFileName = ""
+        var isNewFileName = false
         var soundLiveData: LiveData<Sound> =
             Transformations.switchMap(soundIdLiveData) { soundId ->
                 soundRepository.getSound(soundId)
