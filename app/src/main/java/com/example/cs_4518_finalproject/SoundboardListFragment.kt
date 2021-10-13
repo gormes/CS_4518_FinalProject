@@ -83,7 +83,6 @@ class SoundboardListFragment : Fragment(){
             Observer { sounds ->
                 sounds?.let {
                     num_rows = sounds.size
-                    Log.i(TAG, "Got crimes ${sounds.size}")
                     updateUI(sounds)
                 }
             })

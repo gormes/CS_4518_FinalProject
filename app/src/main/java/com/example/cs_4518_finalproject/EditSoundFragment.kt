@@ -52,7 +52,6 @@ class EditSoundFragment : Fragment() {
                 soundDetailViewModel.isNewFileName = true
                 soundDetailViewModel.newFileName = newFileName
             }
-            Log.i(TAG, "args bundle $soundId")
         }
         soundDetailViewModel.loadSound(soundId)
 

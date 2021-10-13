@@ -50,8 +50,6 @@ class AddSoundFragment: Fragment() {
             sound.name = arguments?.getSerializable(ARG_SOUND_NAME) as String
             sound.filename = arguments?.getSerializable(ARG_FILE_NAME) as String
             sound.listorder = arguments?.getSerializable(NUM_ROWS) as Int
-            Log.d(TAG, "Returning: ${sound.name}")
-            Log.d(TAG, "Returning: ${sound.filename}")
         }
 
     }
@@ -80,7 +78,6 @@ class AddSoundFragment: Fragment() {
         soundFileName = view.findViewById(R.id.addClipName)
         addDoneButton = view.findViewById(R.id.newDoneButton)
         addRecordButton = view.findViewById(R.id.addRecord)
-        Log.i(TAG, "${soundDetailViewModel.getNum()}")
         updateUI()
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
@@ -88,7 +85,6 @@ class AddSoundFragment: Fragment() {
                 if(sound.name == ""){
                     sound.name = "Sound Effect: ${sound.id}"
                 }
-                Log.i(TAG, "${sound}")
                 soundDetailViewModel.addSound(sound)
                 callbacks?.onAddDoneSelected()
             }

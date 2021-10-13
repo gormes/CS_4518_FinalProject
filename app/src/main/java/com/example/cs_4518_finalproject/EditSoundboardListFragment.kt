@@ -58,8 +58,6 @@ class EditSoundboardListFragment : Fragment() {
 
         })
         soundboardRecyclerView.adapter = adapter
-        Log.i(TAG2, "Hello: ${soundboardListViewModel.getSoundByOrder(1).toString()}")
-
         return view
     }
 
@@ -99,8 +97,6 @@ class EditSoundboardListFragment : Fragment() {
                 if (sound.listorder != 0){
                     sound.listorder = sound.listorder - 1
                     soundboardListViewModel.saveSound(sound)
-                    Log.i(
-                        TAG2, "${soundboardListViewModel.soundLiveData.value}")
                     callbacks?.onRestartList()
                 }
 

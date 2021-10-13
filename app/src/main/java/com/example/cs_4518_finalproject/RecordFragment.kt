@@ -60,8 +60,6 @@ class RecordFragment: Fragment() {
             soundId = arguments?.getSerializable(ARG_SOUND_ID) as UUID
             inProgress = arguments?.getSerializable(ARG_IN_PROGRESS) as Boolean
             edit = arguments?.getSerializable(ARG_EDIT) as Boolean
-            Log.d(TAG, "Recorder recieved: ${soundName}")
-            Log.d(TAG, "Recorde recieved: ${soundId}")
         }
     }
 
@@ -135,7 +133,6 @@ class RecordFragment: Fragment() {
 
         }
 
-        Log.i(TAG,"Edit... ${edit}")
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings/")
@@ -144,7 +141,6 @@ class RecordFragment: Fragment() {
                     var newFile = File(currentFileName)
                     newFile.delete()
                 }
-                Log.i(TAG, "EDIT ${edit}")
                 if(edit == true){
                     callbacks?.onEditRecordCancelSelected(soundId)
                 } else {
