@@ -12,6 +12,8 @@ class AddSoundDetailViewModel: ViewModel() {
 
         var newFileName = ""
         var isNewFileName = false
+        var isEdit = false
+
         var soundLiveData: LiveData<Sound> =
             Transformations.switchMap(soundIdLiveData) { soundId ->
                 soundRepository.getSound(soundId)

@@ -17,7 +17,7 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
 
-private const val DATABASE_NAME = "sound-database2"
+private const val DATABASE_NAME = "sound-database5"
 
 class SoundRepository constructor(context:Context) {
 
