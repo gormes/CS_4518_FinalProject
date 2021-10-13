@@ -6,14 +6,20 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import java.util.*
 
-class AddSoundDetailViewModel: ViewModel() {
+class SoundDetailViewModel: ViewModel() {
         private val soundRepository = SoundRepository.get()
         private val soundIdLiveData = MutableLiveData<UUID>()
+
+        val soundListLiveData : LiveData<List<Sound>> = soundRepository.getSounds()
+
 
         var newFileName = ""
         var isNewFileName = false
         var isEdit = false
 
+        fun getNum(){
+            soundRepository.getNum()
+        }
 
         var soundLiveData: LiveData<Sound> =
             Transformations.switchMap(soundIdLiveData) { soundId ->

@@ -10,7 +10,7 @@ data class Sound(@PrimaryKey val id: UUID = UUID.randomUUID(),
                  @ColumnInfo(name = "name") var name: String = "",
                  @ColumnInfo(name = "colorval") var colorval : Int = 0,
                  @ColumnInfo(name = "filename") var filename: String = "",
-                 @ColumnInfo(name = "listorder") var listOrder: Int = 0) {
+                 @ColumnInfo(name = "listorder") var listorder: Int = 0) {
 }
 
 

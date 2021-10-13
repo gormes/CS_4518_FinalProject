@@ -80,7 +80,7 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
     }
 
     override fun onAddRecordDoneSelected(soundName: String, fileName: String) {
-        val fragment = AddSoundFragment.newInstance(soundName, fileName)
+        val fragment = AddSoundFragment.newInstance(soundName, fileName,0)
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -117,7 +117,7 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
     }
 
     override fun onAddSelected(numRows: Int) {
-        val fragment = AddSoundFragment.newInstance(numRows)
+        val fragment = AddSoundFragment.newInstance("", "", numRows)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)

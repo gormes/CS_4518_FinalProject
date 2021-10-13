@@ -38,8 +38,8 @@ class RecordFragment: Fragment() {
     private lateinit var addDoneButton: Button
     private lateinit var addCancelButton: Button
 
-    private val soundDetailViewModel: AddSoundDetailViewModel by lazy {
-        ViewModelProvider(this).get(AddSoundDetailViewModel::class.java)
+    private val soundDetailViewModel: SoundDetailViewModel by lazy {
+        ViewModelProvider(this).get(soundDetailViewModel::class.java)
     }
 
     private var recorder: MediaRecorder? = null

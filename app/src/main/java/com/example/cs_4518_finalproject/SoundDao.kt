@@ -12,6 +12,8 @@ interface SoundDao {
     fun getSound(id: UUID): LiveData<Sound>
     @Query("SELECT * FROM sound WHERE listorder=(:listorder)")
     fun getSoundByList(listorder: Int): LiveData<Sound>
+    @Query("SELECT count(*) FROM sound")
+    fun getNum(): Int
     @Update
     fun updateSound(sound:Sound)
     @Insert

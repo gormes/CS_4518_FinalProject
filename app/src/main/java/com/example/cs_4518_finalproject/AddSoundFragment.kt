@@ -3,8 +3,6 @@ package com.example.cs_4518_finalproject
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import java.util.*
-import androidx.lifecycle.Observer
+
 private const val ARG_SOUND_NAME = "sound_name"
 private const val ARG_FILE_NAME = "file_name"
 private const val TAG = "ADD SOUND FRAGMENT"
@@ -38,8 +36,8 @@ class AddSoundFragment: Fragment() {
     private lateinit var addCancelButton: Button
     private lateinit var addRecordButton: Button
 
-    private val soundDetailViewModel: AddSoundDetailViewModel by lazy {
-        ViewModelProvider(this).get(AddSoundDetailViewModel::class.java)
+    private val soundDetailViewModel: SoundDetailViewModel by lazy {
+        ViewModelProvider(this).get(soundDetailViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +80,7 @@ class AddSoundFragment: Fragment() {
         soundFileName = view.findViewById(R.id.addClipName)
         addDoneButton = view.findViewById(R.id.newDoneButton)
         addRecordButton = view.findViewById(R.id.addRecord)
+        Log.i(TAG, "${soundDetailViewModel.getNum()}")
         updateUI()
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
@@ -114,18 +113,11 @@ class AddSoundFragment: Fragment() {
     }
 
     companion object {
-        fun newInstance(numRows: Int): AddSoundFragment {
-            val args = Bundle().apply {
-                putSerializable(NUM_ROWS, numRows)
-            }
-            return AddSoundFragment().apply {
-                arguments = args
-            }
-        }
-        fun newInstance(soundName: String, fileName : String): AddSoundFragment {
+        fun newInstance(soundName: String, fileName : String, numRows: Int): AddSoundFragment {
             val args = Bundle().apply {
                 putSerializable(ARG_SOUND_NAME, soundName)
                 putSerializable(ARG_FILE_NAME, fileName)
+                putSerializable(NUM_ROWS, numRows)
             }
             return AddSoundFragment().apply {
                 arguments = args
