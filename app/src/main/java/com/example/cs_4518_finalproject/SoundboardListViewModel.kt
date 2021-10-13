@@ -14,6 +14,8 @@ class SoundboardListViewModel: ViewModel() {
 
     private val soundRepository = SoundRepository.get()
 
+    val soundListLiveData : LiveData<List<Sound>> = soundRepository.getSounds()
+
     private val soundOrderLiveData = MutableLiveData<Int>()
     var soundLiveData: LiveData<Sound> =
         Transformations.switchMap(soundOrderLiveData) { listorder ->
