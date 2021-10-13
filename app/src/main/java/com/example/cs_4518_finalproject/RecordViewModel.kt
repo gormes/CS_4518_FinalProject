@@ -9,4 +9,10 @@ import java.io.IOException
 
 class RecordViewModel: ViewModel() {
 
+    private val soundRepo = SoundRepository
+
+    fun getSoundFile(sound: Sound): File {
+        return soundRepo.get().getSoundFile(sound)
+    }
+
 }
