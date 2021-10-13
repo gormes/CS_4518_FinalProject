@@ -43,7 +43,7 @@ class RecordFragment: Fragment() {
     private var recorder: MediaRecorder? = null
     private var output: String? = null
     private var mediaRecorder: MediaRecorder? = null
-    val recorderDirectory: File? = null
+//    val recorderDirectory: File? = null
 
     private var fileName: String = ""
     private var soundId: UUID = UUID.randomUUID()

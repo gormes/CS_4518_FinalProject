@@ -1,6 +1,7 @@
 package com.example.cs_4518_finalproject
 
 import android.content.Context
+import android.media.AudioManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,9 +15,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
+import android.media.MediaPlayer
+import android.media.MediaPlayer.OnCompletionListener
+import android.widget.Toast
+import java.io.File
+import java.io.IOException
+import java.lang.IllegalStateException
 
 
 private const val TAG = "SoundboardListFragment"
+private const val ARG_SOUND_ID = "soundId"
+private const val ARG_SOUND_NAME = "soundName"
+private var player = MediaPlayer()
+
 
 class SoundboardListFragment : Fragment(){
 
@@ -88,6 +99,49 @@ class SoundboardListFragment : Fragment(){
 
     }
 
+    private var soundId: UUID = UUID.randomUUID()
+    private var soundName :String = ""
+    private var output: String? = null
+    private var fileName: String = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        arguments?.let{
+//            soundName = arguments?.getSerializable(ARG_SOUND_NAME) as String
+//            soundId = arguments?.getSerializable(ARG_SOUND_ID) as UUID
+//            Log.d(TAG, "Recorder recieved: ${soundName}")
+//            Log.d(TAG, "Recorde recieved: ${soundId}")
+//        }
+    }
+
+    private var player = MediaPlayer()
+
+    private fun playRecording(sound : Sound) {
+        soundId = sound.id
+        soundName = sound.name
+        fileName = sound.filename
+         try {
+             player.setDataSource(fileName)
+             player.setOnCompletionListener {
+                 fun onCompletion(mediaPlayer: MediaPlayer) {
+                     stopPlaying()
+                 }
+             }
+                player.prepare()
+                player.start()
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
+                println("prepare failed")
+            }
+        }
+
+    private fun stopPlaying() {
+        if (player != null) {
+//            player.reset()
+            player.release()
+            //player = null
+        }
+    }
 
     private inner class SoundHolder(view: View)
         : RecyclerView.ViewHolder(view), View.OnClickListener {
@@ -108,6 +162,7 @@ class SoundboardListFragment : Fragment(){
         }
 
         override fun onClick(v: View?) {
+            playRecording(sound)
             Log.i(TAG,"Eventually will play sound")
         }
 
