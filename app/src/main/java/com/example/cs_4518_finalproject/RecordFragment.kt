@@ -19,15 +19,17 @@ private const val TAG = "ADD RECORD FRAGMENT"
 private const val ARG_SOUND_ID = "soundId"
 private const val ARG_SOUND_NAME = "soundName"
 private const val ARG_IN_PROGRESS = "inProgress"
-
+private const val ARG_EDIT = "edit"
 class RecordFragment: Fragment() {
 
     interface Callbacks {
         fun onStartSelected()
         fun onStopSelected()
-        fun onRecordCancelSelected()
-        fun onRecordDoneSelected(soundName: String, fileName: String)
-        fun onRecordRepeatSelected(soundName: String, soundId: UUID, inProgress: Boolean)
+        fun onAddRecordCancelSelected()
+        fun onAddRecordDoneSelected(soundName: String, fileName: String)
+        fun onEditRecordCancelSelected(soundId: UUID)
+        fun onEditRecordDoneSelected(soundId: UUID, fileName: String)
+        fun onRecordRepeatSelected(soundName: String, soundId: UUID, inProgress: Boolean, edit: Boolean)
     }
 
     private var callbacks: Callbacks? = null
@@ -49,6 +51,7 @@ class RecordFragment: Fragment() {
     private var soundId: UUID = UUID.randomUUID()
     private var soundName :String = ""
     private var inProgress : Boolean = false
+    private var edit : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +59,7 @@ class RecordFragment: Fragment() {
             soundName = arguments?.getSerializable(ARG_SOUND_NAME) as String
             soundId = arguments?.getSerializable(ARG_SOUND_ID) as UUID
             inProgress = arguments?.getSerializable(ARG_IN_PROGRESS) as Boolean
+            edit = arguments?.getSerializable(ARG_IN_PROGRESS) as Boolean
             Log.d(TAG, "Recorder recieved: ${soundName}")
             Log.d(TAG, "Recorde recieved: ${soundId}")
         }
@@ -65,12 +69,12 @@ class RecordFragment: Fragment() {
     private fun startRecording() {
         var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings")
         if(dir.exists()){
-            output = "${dir}"+"${soundId}.3gp"
-            fileName = "${dir}"+"${soundId}.3gp"
+            output = "${dir}"+"${soundId}1.3gp"
+            fileName = "${dir}"+"${soundId}1.3gp"
         } else {
             dir.mkdir()
-            output = "${dir}"+"${soundId}.3gp"
-            fileName = "${dir}"+"${soundId}.3gp"
+            output = "${dir}"+"${soundId}1.3gp"
+            fileName = "${dir}"+"${soundId}1.3gp"
         }
 
 
@@ -133,29 +137,50 @@ class RecordFragment: Fragment() {
 
         addCancelButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordCancelSelected()
+                var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings/")
+                if(dir.exists()){
+                    var currentFileName = "${dir}"+"${soundId}1.3gp"
+                    var newFile = File(currentFileName)
+                    newFile.delete()
+                }
+                if(edit == true){
+                    callbacks?.onEditRecordCancelSelected(soundId)
+                } else {
+                    callbacks?.onAddRecordCancelSelected()
+                }
+
             }
         })
 
 
         addDoneButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings")
+                var dir: File = File(context?.getExternalFilesDir(null)!!.absolutePath + "/soundrecordings/")
                 if(dir.exists()){
                     fileName = "${dir}"+"${soundId}.3gp"
+                    var currentFileName = "${dir}"+"${soundId}1.3gp"
+                    var oldFile = File(fileName)
+                    if(oldFile.exists()){
+                        var newFile = File(currentFileName)
+                        newFile.renameTo(oldFile)
+                    }
                 }
-                callbacks?.onRecordDoneSelected(soundName, fileName)
+                if(edit == true){
+                    callbacks?.onEditRecordDoneSelected(soundId, fileName)
+                } else {
+                    callbacks?.onAddRecordDoneSelected(soundName, fileName)
+                }
             }
         })
         addStartButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordRepeatSelected(soundName, soundId, true)
+                callbacks?.onRecordRepeatSelected(soundName, soundId, true, edit)
                 startRecording()
             }
         })
         addStopButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                callbacks?.onRecordRepeatSelected(soundName, soundId, false)
+                callbacks?.onRecordRepeatSelected(soundName, soundId, false, edit)
                 stopRecording()
             }
         })
@@ -163,11 +188,13 @@ class RecordFragment: Fragment() {
     }
 
     companion object {
-        fun newInstance(soundName: String, soundId: UUID, inProgress: Boolean): RecordFragment {
+        fun newInstance(soundName: String, soundId: UUID, inProgress: Boolean, edit:Boolean): RecordFragment {
             val args = Bundle().apply {
                 putSerializable(ARG_SOUND_NAME, soundName)
                 putSerializable(ARG_SOUND_ID, soundId)
                 putSerializable(ARG_IN_PROGRESS, inProgress)
+                putSerializable(ARG_EDIT, edit)
+
             }
             return RecordFragment().apply {
                 arguments = args

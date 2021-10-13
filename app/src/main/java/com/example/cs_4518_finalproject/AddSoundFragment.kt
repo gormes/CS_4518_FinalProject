@@ -28,7 +28,7 @@ class AddSoundFragment: Fragment() {
     interface Callbacks {
         fun onAddDoneSelected()
         fun onAddCancelSelected()
-        fun onRecordButSelected(soundName: String, soundId: UUID)
+        fun onRecordButSelected(soundName: String, soundId: UUID, edit:Boolean)
     }
 
     private var callbacks: Callbacks? = null
@@ -96,7 +96,7 @@ class AddSoundFragment: Fragment() {
         addRecordButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 sound.name = soundName.text.toString()
-                callbacks?.onRecordButSelected(sound.name, sound.id)
+                callbacks?.onRecordButSelected(sound.name, sound.id, false)
             }
         })
 

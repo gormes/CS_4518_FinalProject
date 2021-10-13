@@ -52,8 +52,8 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
     }
 
 
-    override fun onRecordButSelected(soundName: String, soundId: UUID) {
-        val fragment = RecordFragment.newInstance(soundName, soundId, false)
+    override fun onRecordButSelected(soundName: String, soundId: UUID, edit : Boolean) {
+        val fragment = RecordFragment.newInstance(soundName, soundId, false, edit)
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -61,7 +61,7 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordCancelSelected() {
+    override fun onAddRecordCancelSelected() {
         val fragment = AddSoundFragment()
         supportFragmentManager
                 .beginTransaction()
@@ -70,7 +70,7 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordDoneSelected(soundName: String, fileName: String) {
+    override fun onAddRecordDoneSelected(soundName: String, fileName: String) {
         val fragment = AddSoundFragment.newInstance(soundName, fileName)
         supportFragmentManager
                 .beginTransaction()
@@ -79,8 +79,25 @@ EditSoundboardListFragment.Callbacks, EditSoundFragment.Callbacks, RecordFragmen
                 .commit()
     }
 
-    override fun onRecordRepeatSelected(soundName: String, soundId: UUID, inProgress: Boolean) {
-        val fragment = RecordFragment.newInstance(soundName, soundId, inProgress)
+    override fun onRecordRepeatSelected(soundName: String, soundId: UUID, inProgress: Boolean, edit: Boolean) {
+        val fragment = RecordFragment.newInstance(soundName, soundId, inProgress, edit)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onEditRecordCancelSelected(soundId:UUID) {
+        val fragment = EditSoundFragment.newInstance(soundId)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    override fun onEditRecordDoneSelected(soundId:UUID, fileName:String) {
+        val fragment = EditSoundFragment.newInstance(soundId, fileName)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)

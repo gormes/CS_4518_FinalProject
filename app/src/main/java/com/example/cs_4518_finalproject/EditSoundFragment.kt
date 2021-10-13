@@ -18,12 +18,15 @@ import java.util.*
 import androidx.lifecycle.Observer
 
 private const val ARG_CRIME_ID = "sound_id"
+private const val ARG_FILE_NAME = "fileName"
 private const val TAG = "EditSoundFragment"
 
 class EditSoundFragment : Fragment() {
     private lateinit var sound: Sound
     private lateinit var soundName: EditText
     private lateinit var soundFileName: TextView
+    private var newFileName: String = ""
+    private var ifNewFile : Boolean = false
 
     interface Callbacks {
         fun onEditSaveSelected()
@@ -43,6 +46,10 @@ class EditSoundFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val soundId: UUID = arguments?.getSerializable(ARG_CRIME_ID) as UUID
+        arguments?.getSerializable(ARG_FILE_NAME).let{
+            newFileName = arguments?.getSerializable(ARG_FILE_NAME) as String
+            ifNewFile = true
+        }
         Log.i(TAG, "args bundle $soundId")
         soundDetailViewModel.loadSound(soundId)
     }
@@ -64,6 +71,9 @@ class EditSoundFragment : Fragment() {
             Observer { sound ->
                 sound?.let {
                     this.sound = sound
+                    if(ifNewFile){
+                        this.sound.filename = newFileName
+                    }
                     updateUI()
                 }
             })
@@ -163,6 +173,16 @@ class EditSoundFragment : Fragment() {
                 arguments = args
             }
         }
+
+        fun newInstance(soundId: UUID, fileName: String): EditSoundFragment {
+            val args = Bundle().apply {
+                putSerializable(ARG_FILE_NAME, soundId)
+            }
+            return EditSoundFragment().apply {
+                arguments = args
+            }
+        }
+
     }
 
 }
