@@ -139,7 +139,7 @@ class RecordFragment: Fragment() {
                 if(dir.exists()){
                     var currentFileName = "${dir}"+"/${soundId}1.3gp"
                     var newFile = File(currentFileName)
-                    newFile.delete()
+                    //newFile.delete()
                 }
                 if(edit == true){
                     callbacks?.onEditRecordCancelSelected(soundId)
